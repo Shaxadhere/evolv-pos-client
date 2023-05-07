@@ -16,7 +16,7 @@ const ErrorPage = () => {
                 <Text>Sorry, an unexpected error has occurred.</Text>
                 <Text>{error.statusText || error.message}</Text>
                 <PrimaryButton mt={5}>
-                    <Link to="/admin/dashboard">
+                    <Link to="/">
                         Back To Homepage
                     </Link>
                 </PrimaryButton>

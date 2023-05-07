@@ -3,16 +3,18 @@ import React from 'react'
 import Sider from './Sider';
 import Header from './Header';
 import { Outlet, useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 const AdminLayout = () => {
     const sidebar = useDisclosure();
     const { pathname } = useLocation()
-    // const token = useSelector((state) => state.user.token)
+    const token = useSelector((state) => state.user.token)
     const { colorMode } = useColorMode()
 
-    // if (!token) {
-    // return <Navigate to="/auth/login" replace={true} />
-    // }
+    if (!token) {
+    return <Navigate to="/auth/login" replace={true} />
+    }
 
     return (
         <Box
