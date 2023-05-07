@@ -1,7 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
 import { CONTENT_TYPE } from "../constants";
-import { toast } from "react-toastify";
 
 async function Post({ path, token, bodyObj, contentType = CONTENT_TYPE.JSON, queryObj, showToast }) {
   try {
@@ -30,16 +29,16 @@ async function Post({ path, token, bodyObj, contentType = CONTENT_TYPE.JSON, que
     if (showToast) {
       const { apiMessage, success } = response.data
       if (success) {
-        toast.success(apiMessage)
+        // toast.success(apiMessage)
       }
       else {
-        toast.error(apiMessage)
+        // toast.error(apiMessage)
       }
     }
     return response.data;
   } catch (error) {
     if (showToast) {
-      toast.error(error?.response?.data?.apiMessage || "Unknown error!")
+      // toast.error(error?.response?.data?.apiMessage || "Unknown error!")
     }
   }
 }

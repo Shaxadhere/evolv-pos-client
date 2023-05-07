@@ -3,49 +3,6 @@ const getColor = (color, colorMode) => {
     return colors[colorMode][color]
 }
 
-//will be removed
-const appColors = {
-    primary: "#40844e",
-    primaryHover: "#40844eb8",
-
-    secondary: "#e9e3ff",
-    primaryText: "#333",
-    secondaryText: "#575153",
-
-    lightBackgroundFill: "#eaf5f2",
-    lightGrayBackgroundFill: "#e1e1e1",
-
-    primaryButtonFill: "#9e4f8f",
-    primaryButtonFillHover: "#9e4f8fb0",
-
-    headingText: "#383839",
-    layoutHeaderBackground: "#fff",
-    layoutBoxBackground: "#fff",
-
-    tableBackground: "#fff",
-    tableFilterBoxBackground: "#f0f0f0",
-    tableFilterInputBackground: "#f0f0f0",
-    tableFilterBackground: "#f0f0f0",
-    tableFilterDropdownBackground: "#e1e1e1",
-    tableRowHoverBackground: "#ebf5f2",
-
-    paginationNavigationColor: "#9e4f8f",
-    paginationNavigationHoverColor: "#9e4f8fb0",
-    paginationNumberButton: "#9e4f8f",
-
-    white: "#fbfbfb",
-    dark: "#2a2a2a",
-    smoke: "#AAAAAA",
-    whiteSmoke: "#f5f5f5",
-    gray: "#949494",
-    lightGray: "#eaeaea",
-    danger: "#ae0000",
-    success: "green",
-    warning: "yellow",
-
-    avatarBg: "#084089"
-}
-
 const colorKeys = {
     primary: "primary",
     primaryHover: "primaryHover",
@@ -182,5 +139,4 @@ const colors = {
         avatarBg: "#084089"
     }
 }
-export default appColors
 export { getColor, colors, colorKeys }

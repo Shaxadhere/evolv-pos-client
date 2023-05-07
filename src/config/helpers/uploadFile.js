@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { Post } from "../api";
 import { CONTENT_TYPE } from "../constants";
 import API_CONSTANTS from "../constants/api";
@@ -6,20 +5,20 @@ import API_CONSTANTS from "../constants/api";
 const uploadFile = ({ file, isPublic = false, token, expiryMinutes = 60, maxSizeInMBs = 2, allowedExtensions = ["jpg", "jpeg", "png", "svg"], toastErrors = false }) => {
     if (!file) {
         const err = "No file provided"
-        if (toastErrors) toast.error(err)
+        // if (toastErrors) toast.error(err)
         return Promise.reject(err)
     }
 
     if (file.size > maxSizeInMBs * 1024 * 1024) {
         const err = `File size cannot exceed ${maxSizeInMBs} MBs`
-        if (toastErrors) toast.error(err)
+        // if (toastErrors) toast.error(err)
         return Promise.reject(err)
     }
 
 
     if (!allowedExtensions.includes(file.name.split(".").pop())) {
         const err = `File extension not allowed. Allowed extensions are: ${allowedExtensions.join(", ")}`
-        if (toastErrors) toast.error(err)
+        // if (toastErrors) toast.error(err)
         return Promise.reject(err)
     }
 

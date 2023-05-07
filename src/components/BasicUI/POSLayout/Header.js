@@ -3,36 +3,12 @@ import React from 'react'
 import Logo from '../Logo'
 import { Link, useLocation } from 'react-router-dom'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
+import { topNav } from '../../../config/constants/navigations'
 
 const Header = () => {
   const { colorMode } = useColorMode()
   const { pathname } = useLocation()
-  const menuItems = [
-    {
-      name: "Home",
-      path: "/"
-    },
-    {
-      name:"POS",
-      path: "/pos"
-    },
-    {
-      name: "Products",
-      path: "/products"
-    },
-    {
-      name: "Categories",
-      path: "/categories"
-    },
-    {
-      name: "Orders",
-      path: "/orders"
-    },
-    {
-      name: "Customers",
-      path: "/customers"
-    },
-  ]
+
   return (
     <Flex
       as="header"
@@ -41,8 +17,8 @@ const Header = () => {
       left="0"
       w="100%"
       h="60px"
-      bg="white"
       borderBottom="1px solid #eee"
+      bg={getColor(colorKeys.layoutHeaderBackground, colorMode)}
       justify={"space-between"}
       align={"center"}
       px="20px"
@@ -52,7 +28,7 @@ const Header = () => {
           <Logo />
         </Box>
         <Flex as="nav" align="center" ml="20px">
-          {menuItems.map((item, index) => {
+          {topNav.map((item, index) => {
             const isActive = pathname === item.path
             return (
               <Box
@@ -62,7 +38,7 @@ const Header = () => {
                 key={index}
                 mx="2"
                 fontWeight="500"
-                color={isActive ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.gray, colorMode)}
+                color={isActive ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.white, colorMode)}
               >
                 {item.name}
               </Box>

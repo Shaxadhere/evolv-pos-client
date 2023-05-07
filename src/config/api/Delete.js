@@ -1,7 +1,6 @@
 
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
-import { toast } from "react-toastify";
 
 async function Delete({path, token, bodyObj, queryObj, showToast}) {
   let url = BASE_URL + path;
@@ -23,10 +22,10 @@ async function Delete({path, token, bodyObj, queryObj, showToast}) {
   if (showToast) {
     const { apiMessage, success } = data
     if (success) {
-      toast.success(apiMessage)
+      // toast.success(apiMessage)
     }
     else {
-      toast.error(apiMessage)
+      // toast.error(apiMessage)
     }
   }
   return data;
