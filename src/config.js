@@ -7,7 +7,7 @@ var Config = {
             PERSIST_SECRET_KEY: "83jd9mjoaiskdp9kDASJDO#)@IDK)SAKDOFAKSdlaskf032kdaLASMCAXMCKL#@)DQsmaW_D{L#PKDOSJdaFAJLSKCLAMLK_@_@#)I@KMLDJSALDJLASROW",
         },
         DEVELOPMENT: {
-            BASE_URL: "https://evolvlmsdev.azurewebsites.net/api",
+            BASE_URL: "https://evolvpos.net/api",
             FILE_CONTAINER: "CONTAINER_ID",
             PERSIST_SECRET_KEY: "83jd9mjoaiskdp9kDASJDO#)@IDK)SAKDOFAKSdlaskf032kdaLASMCAXMCKL#@)DQsmaW_D{L#PKDOSJdaFAJLSKCLAMLK_@_@#)I@KMLDJSALDJLASROW",
         },
