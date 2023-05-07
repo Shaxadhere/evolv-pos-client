@@ -1,13 +1,84 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Lato", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #e6e6e6;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(179, 179, 179);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(150, 150, 150);
+}
+
+.phone-input-dropdown > .chakra-select__wrapper {
+  height: 100%;
+}
+
+.top-nav-avatar > .chakra-avatar__initials {
+  width: 100%;
+}
+
+/* Form MultiSelect Checkboxes Styles */
+.form-multi-select-checkboxes.css-b62m3t-container {
+  width: 190px;
+}
+
+.form-multi-select-checkboxes__control {
+  height: 40px !important;
+  border-radius: 0.125rem !important;
+}
+
+.form-multi-select-checkboxes__value-container {
+  height: 34px !important;
+}
+.custom-checkbox:checked {
+  border-color: red;
+  background-color: red;
+}
+.form-multi-select-checkboxes__indicator.form-multi-select-checkboxes__dropdown-indicator,
+.form-multi-select-checkboxes__indicator-separator.css-1u9des2-indicatorSeparator {
+  display: none !important;
+}
+
+.form-multi-select-checkboxes__indicator.form-multi-select-checkboxes__clear-indicator.css-1xc3v61-indicatorContainer {
+  background-color: #eaeaea;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.form-multi-select-checkboxes__menu {
+  width: fit-content !important;
+  min-width: 100% !important;
+}
+/* Custom Popover */
+
+.custom-popover > .chakra-popover__popper {
+  z-index: 9999999;
+}
+
+/* Animations */
+@keyframes rotation {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
 }
