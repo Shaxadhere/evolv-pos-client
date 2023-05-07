@@ -43,7 +43,7 @@ const Header = ({ disclosure }) => {
                     <BreadcrumbLink fontSize="15px" color="white" as={Link} to="/admin">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
                 {splitPath.map((item, index) => {
-                    if (index < 2 || item === "dashboard") return null
+                    if (index < 1 || item === "dashboard") return null
                     const link = splitPath.slice(0, index + 1).join('/')
                     return (
                         <BreadcrumbItem key={index}>

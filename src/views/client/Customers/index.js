@@ -1,36 +1,36 @@
 import { Box, Flex, Heading, Icon, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import PrimaryButton from '../../../components/BasicUI/Buttons/PrimaryButton'
-import ProductList from './ProductList'
-import ProductForm from './ProductForm'
+import CustomerList from './CustomerList'
+import CustomerForm from './CustomerForm'
 import APP_ICONS from '../../../config/constants/icons'
 
-const Products = () => {
+const Customers = () => {
   const formDisclosure = useDisclosure()
-  const [selectedProduct, setSelectedProduct] = React.useState(null)
+  const [selectedCustomer, setSelectedCustomer] = React.useState(null)
 
   return (
     <Box>
       <Flex justify="space-between" align={"center"}>
-        <Heading as="h2" fontSize={26} fontWeight="bold">Products</Heading>
+        <Heading as="h2" fontSize={26} fontWeight="bold">Customers</Heading>
         <PrimaryButton onClick={() => {
           formDisclosure.onOpen()
-          setSelectedProduct(null)
+          setSelectedCustomer(null)
         }}
           leftIcon={<Icon boxSize={6} as={APP_ICONS.ADD} />}
         >
-          Create New Product
+          Create New Customer
         </PrimaryButton>
       </Flex>
-      <ProductList
+      <CustomerList
         onEditModal={(data) => {
-          setSelectedProduct(data)
+          setSelectedCustomer(data)
           formDisclosure.onOpen()
         }}
       />
-      <ProductForm disclosure={formDisclosure} data={selectedProduct} />
+      <CustomerForm disclosure={formDisclosure} data={selectedCustomer} />
     </Box>
   )
 }
 
-export default Products
+export default Customers

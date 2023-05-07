@@ -12,6 +12,10 @@ import POSLayout from '../../components/BasicUI/POSLayout';
 import AuthLayout from '../../components/BasicUI/AuthLayout';
 import Login from '../../views/auth/Login';
 import Signup from '../../views/auth/Signup';
+import Products from '../../views/client/Products';
+import Categories from '../../views/client/Categories';
+import Orders from '../../views/client/Orders';
+import Customers from '../../views/client/Customers';
 
 // import examSubSiderOptions from "../../config/constants/examSubsiderOptions"
 
@@ -28,7 +32,23 @@ const router = createBrowserRouter([
             {
                 path: "dashboard",
                 element: <Dashboard />
-            }
+            },
+            {
+                path: "products",
+                element: <Products />
+            },
+            {
+                path: "categories",
+                element: <Categories />
+            },
+            {
+                path: "orders",
+                element: <Orders />
+            },
+            {
+                path: "customers",
+                element: <Customers />
+            },
         ]
     },
     {

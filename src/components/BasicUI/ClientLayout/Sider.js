@@ -92,28 +92,6 @@ const Sider = ({ disclosure }) => {
           />
         )}
       </Flex>
-
-      <Flex justifyContent={"center"}>
-        <Box w="70%" borderTopWidth={"0.2px"} borderColor={getColor(colorKeys.smoke, colorMode)} />
-      </Flex>
-
-      <Flex
-        alignItems={"center"}
-        justifyContent="space-between"
-        mt={4}
-        direction="column"
-        as="nav"
-        fontSize="sm"
-        color="primaryText"
-        aria-label="Main Navigation"
-      >
-        <NavItem
-          icon={APP_ICONS.EXAMS}
-          title={"Analyze"}
-          link={"/admin/components"}
-        />
-      </Flex>
-
     </Box>
   );
   return (
