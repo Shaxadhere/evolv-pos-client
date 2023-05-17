@@ -3,16 +3,9 @@ import { useForm } from 'react-hook-form'
 import FormDrawer from '../../../components/Forms/FormDrawer'
 import { SimpleGrid } from '@chakra-ui/react'
 import FormInput from '../../../components/Forms/FormInput'
-import FormSelect from '../../../components/Forms/FormSelect'
 import FormSwitch from '../../../components/Forms/FormSwitch'
-import uploadFile from '../../../config/helpers/uploadFile'
 import { useSelector } from 'react-redux'
-import { ALLOWED_FILE_TYPES } from '../../../config/constants/fileHelper'
 import FormSearchSelect from '../../../components/Forms/FormSearchSelect'
-import { useCohortOptions } from '../../../config/query/cohortQuery'
-import { useChapterOptions } from '../../../config/query/chapterQuery'
-import { makeSelectList } from '../../../config/helpers/selectListHelper'
-// import { useCreateProduct, useProducts, useUpdateProduct } from '../../../config/query/productQuery'
 
 const ProductForm = ({ disclosure, data }) => {
 
@@ -42,7 +35,7 @@ const ProductForm = ({ disclosure, data }) => {
     })
 
     const onSubmit = async (values) => {
-       
+
     }
     return (
         <FormDrawer
@@ -79,7 +72,7 @@ const ProductForm = ({ disclosure, data }) => {
                     required={true}
                     errors={errors}
                     control={control}
-                    // options={makeSelectList(cohortOptionsQuery?.data)}
+                // options={makeSelectList(cohortOptionsQuery?.data)}
                 />
 
                 <FormSearchSelect
@@ -89,7 +82,7 @@ const ProductForm = ({ disclosure, data }) => {
                     required={true}
                     errors={errors}
                     control={control}
-                    // options={makeSelectList(chapterOptionsQuery?.data)}
+                // options={makeSelectList(chapterOptionsQuery?.data)}
                 />
 
                 <FormInput
@@ -124,7 +117,7 @@ const ProductForm = ({ disclosure, data }) => {
                 control={control}
                 id="productFile"
             />
-            
+
         </FormDrawer>
     )
 }

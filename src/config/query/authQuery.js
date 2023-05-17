@@ -3,7 +3,6 @@ import {
 } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Post } from "../api";
-import appendQueryParams from "../helpers/appendQueryParams";
 import API_CONSTANTS from "../constants/api";
 
 export const useLogin = () => {
@@ -13,8 +12,9 @@ export const useLogin = () => {
             const { data } = await Post({
                 path: API_CONSTANTS.AUTH.login,
                 token,
-                bodyObj: body,
-                showToast: true
+                body,
+                toastError: true,
+                toastMessage: true,
             })
             return data
         },

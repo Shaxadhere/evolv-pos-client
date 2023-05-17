@@ -23,22 +23,15 @@ const Login = () => {
     } = useForm()
 
     function onSubmit(values) {
-        // loginQuery.mutateAsync(values)
-        //     .then((response) => {
-        //         console.log(response, "response")
-        //         dispatch(addUser(response))
-        //         navigate("/admin")
-        //     })
-        //     .catch((error) => {
-        //         console.log(error, "error")
-        //     })
-        dispatch(addUser({
-            user: {
-                name: "Admin",
-                email: "admin@mail.com",
-            },
-            token: "token"
-        }))
+        loginQuery.mutateAsync(values)
+            .then((response) => {
+                console.log(response, "response")
+                dispatch(addUser(response))
+                navigate("/admin")
+            })
+            .catch((error) => {
+                console.log(error, "error")
+            })
     }
 
     return (

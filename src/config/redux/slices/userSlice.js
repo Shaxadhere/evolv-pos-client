@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     user: {},
     token: null,
-    permissions: [],
-    expiryDate: null,
+    store: {}
 }
 
 export const userSlice = createSlice({
@@ -14,8 +13,7 @@ export const userSlice = createSlice({
         addUser: (state, { payload }) => {
             state.user = payload.user
             state.token = payload.token
-            state.permissions = payload.permissions
-            state.expiryDate = payload.expiryDate
+            state.store = payload.store
         },
         updateUser: (state, { payload }) => {
             state.user = payload
@@ -23,8 +21,7 @@ export const userSlice = createSlice({
         removeUser: (state) => {
             state.user = {};
             state.token = null;
-            state.permissions = []
-            state.expiryDate = null
+            state.store = {};
             localStorage.clear();
         },
     },

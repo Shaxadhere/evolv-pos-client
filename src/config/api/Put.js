@@ -1,46 +1,40 @@
 import axios from "axios"
-import { BASE_URL } from "../constants/api";
+import { BASE_URL, TENANT } from "../constants/api";
+import { createStandaloneToast } from '@chakra-ui/toast'
+const { toast } = createStandaloneToast()
 
-async function Put({path, token, bodyObj, queryObj, showToast}) {
+async function Put({ path, token, body, toastError, toastMessage }) {
   let url = BASE_URL + path;
+  try {
 
-  const header = {
-    headers: token
-      ? {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }
-      : {
-        "Content-Type": "application/json",
-      },
-  };
+    const headers = { "Content-Type": "application/json", tenant: TENANT }
+    if (token) headers.Authorization = `Bearer ${token}`
 
-  if (queryObj) {
-    let queryString = "";
-    Object.keys(queryObj).forEach((val) => {
-      if (queryObj[val].length > 0) {
-        if (queryString.length > 0) {
-          queryString += `&${val}=${queryObj[val]}`;
-        } else {
-          queryString += `?${val}=${queryObj[val]}`;
-        }
-      }
-    });
+    const { data } = await axios.put(url, body, headers);
 
-    url += queryString;
-    header.headers.params = queryObj;
-  }
-  const { data } = await axios.put(url, bodyObj, header);
-  if (showToast) {
-    const { apiMessage, success } = data
-    if (success) {
-      // toast.success(apiMessage)
+    if (toastMessage) {
+      const { message } = data
+      toast({
+        title: 'Congrats!',
+        description: message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
     }
-    else {
-      // toast.error(apiMessage)
+    return data;
+  } catch (error) {
+    if (toastError) {
+      toast({
+        title: 'Oh oh!',
+        description: error?.response?.data?.message || "Unknown error!",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     }
+    console.error("Error in Put.js: ", error)
   }
-  return data;
 }
 
 export { Put };

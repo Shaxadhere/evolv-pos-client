@@ -13,7 +13,12 @@ export const useSales = (params) => {
     return useQuery({
         queryKey: ["sales", params],
         queryFn: async () => {
-            const { data } = await Get(`${API_CONSTANTS.SALES.base}?${appendQueryParams(params)}`, token, {})
+            const { data } = await Get({
+                path: `${API_CONSTANTS.SALES.base}?${appendQueryParams(params)}`,
+                token,
+                toastError: true,
+                toastMessage: true
+            })
             return data
         },
         keepPreviousData: true
@@ -28,8 +33,9 @@ export const useCreateSale = () => {
             const { data } = await Post({
                 path: API_CONSTANTS.SALES.base,
                 token,
-                bodyObj: body,
-                showToast: true
+                body,
+                toastError: true,
+                toastMessage: true,
             })
             return data
         },
@@ -56,7 +62,9 @@ export const useUpdateSale = () => {
             const { data } = await Put({
                 path: `${API_CONSTANTS.SALES.base}/${body.id}`,
                 token,
-                bodyObj: body
+                body,
+                toastError: true,
+                toastMessage: true,
             })
             return data
         },

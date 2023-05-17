@@ -13,7 +13,12 @@ export const useStores = (params) => {
     return useQuery({
         queryKey: ["stores", params],
         queryFn: async () => {
-            const { data } = await Get(`${API_CONSTANTS.STORES.base}?${appendQueryParams(params)}`, token, {})
+            const { data } = await Get({
+                path: `${API_CONSTANTS.STORES.base}?${appendQueryParams(params)}`,
+                token,
+                toastError: true,
+                toastMessage: true
+            })
             return data
         },
         keepPreviousData: true
@@ -28,8 +33,9 @@ export const useCreateStore = () => {
             const { data } = await Post({
                 path: API_CONSTANTS.STORES.base,
                 token,
-                bodyObj: body,
-                showToast: true
+                body,
+                toastError: true,
+                toastMessage: true,
             })
             return data
         },
@@ -56,7 +62,9 @@ export const useUpdateStore = () => {
             const { data } = await Put({
                 path: `${API_CONSTANTS.STORES.base}/${body.id}`,
                 token,
-                bodyObj: body
+                body,
+                toastError: true,
+                toastMessage: true,
             })
             return data
         },

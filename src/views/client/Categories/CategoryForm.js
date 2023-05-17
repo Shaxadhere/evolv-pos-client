@@ -1,18 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import FormDrawer from '../../../components/Forms/FormDrawer'
 import { SimpleGrid } from '@chakra-ui/react'
 import FormInput from '../../../components/Forms/FormInput'
-import FormSelect from '../../../components/Forms/FormSelect'
 import FormSwitch from '../../../components/Forms/FormSwitch'
-import uploadFile from '../../../config/helpers/uploadFile'
 import { useSelector } from 'react-redux'
-import { ALLOWED_FILE_TYPES } from '../../../config/constants/fileHelper'
 import FormSearchSelect from '../../../components/Forms/FormSearchSelect'
-import { useCohortOptions } from '../../../config/query/cohortQuery'
-import { useChapterOptions } from '../../../config/query/chapterQuery'
-import { makeSelectList } from '../../../config/helpers/selectListHelper'
-// import { useCreateCategory, useCategorys, useUpdateCategory } from '../../../config/query/categoryQuery'
 
 const CategoryForm = ({ disclosure, data }) => {
 
@@ -41,7 +34,7 @@ const CategoryForm = ({ disclosure, data }) => {
     })
 
     const onSubmit = async (values) => {
-       
+
     }
     return (
         <FormDrawer
@@ -78,7 +71,7 @@ const CategoryForm = ({ disclosure, data }) => {
                     required={true}
                     errors={errors}
                     control={control}
-                    // options={makeSelectList(cohortOptionsQuery?.data)}
+                // options={makeSelectList(cohortOptionsQuery?.data)}
                 />
 
                 <FormSearchSelect
@@ -88,7 +81,7 @@ const CategoryForm = ({ disclosure, data }) => {
                     required={true}
                     errors={errors}
                     control={control}
-                    // options={makeSelectList(chapterOptionsQuery?.data)}
+                // options={makeSelectList(chapterOptionsQuery?.data)}
                 />
 
                 <FormInput
@@ -123,7 +116,7 @@ const CategoryForm = ({ disclosure, data }) => {
                 control={control}
                 id="categoryFile"
             />
-            
+
         </FormDrawer>
     )
 }
