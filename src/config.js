@@ -1,25 +1,21 @@
 var Config = {
-    ENVIRONMENT: "DEVELOPMENT", //current selected environment
+    ENVIRONMENT: "LOCAL", //current selected environment
     ENVIRONMENTS: {
         LOCAL: {
-            BASE_URL: "https://localhost:44318/api",
-            FILE_CONTAINER: "CONTAINER_ID",
-            PERSIST_SECRET_KEY: "83jd9mjoaiskdp9kDASJDO#)@IDK)SAKDOFAKSdlaskf032kdaLASMCAXMCKL#@)DQsmaW_D{L#PKDOSJdaFAJLSKCLAMLK_@_@#)I@KMLDJSALDJLASROW",
+            BASE_URL: "https://localhost:5000/api",
+            PERSIST_SECRET_KEY: "local.secret",
         },
         DEVELOPMENT: {
-            BASE_URL: "https://evolvpos.net/api",
-            FILE_CONTAINER: "CONTAINER_ID",
-            PERSIST_SECRET_KEY: "83jd9mjoaiskdp9kDASJDO#)@IDK)SAKDOFAKSdlaskf032kdaLASMCAXMCKL#@)DQsmaW_D{L#PKDOSJdaFAJLSKCLAMLK_@_@#)I@KMLDJSALDJLASROW",
+            BASE_URL: "https://dev.evolvpos.net/api",
+            PERSIST_SECRET_KEY: "dev.secret",
         },
         STAGING: {
-            BASE_URL: "http://localhost:5000/api",
-            FILE_CONTAINER: "CONTAINER_ID",
-            PERSIST_SECRET_KEY: "83jd9mjoaiskdp9kDASJDO#)@IDK)SAKDOFAKSdlaskf032kdaLASMCAXMCKL#@)DQsmaW_D{L#PKDOSJdaFAJLSKCLAMLK_@_@#)I@KMLDJSALDJLASROW",
+            BASE_URL: "http://stg.evolvpos:5000/api",
+            PERSIST_SECRET_KEY: "stg.secret",
         },
         PRODUCTION: {
-            BASE_URL: "http://localhost:5000/api",
-            FILE_CONTAINER: "CONTAINER_ID",
-            PERSIST_SECRET_KEY: "83jd9mjoaiskdp9kDASJDO#)@IDK)SAKDOFAKSdlaskf032kdaLASMCAXMCKL#@)DQsmaW_D{L#PKDOSJdaFAJLSKCLAMLK_@_@#)I@KMLDJSALDJLASROW",
+            BASE_URL: "http://evolvpos.net/api",
+            PERSIST_SECRET_KEY: "83jd9mjDWBABEILYoaiskdp9kDALASROWnuhnkaSADOKLKASDMNV",
         }
     }
 };

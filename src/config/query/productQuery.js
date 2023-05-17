@@ -8,25 +8,25 @@ import appendQueryParams from "../helpers/appendQueryParams";
 import API_CONSTANTS from "../constants/api";
 import { prepareData } from "../helpers/apiHelper";
 
-export const useUsers = (params) => {
+export const useProducts = (params) => {
     const token = useSelector((state) => state.user.token)
     return useQuery({
-        queryKey: ["users", params],
+        queryKey: ["products", params],
         queryFn: async () => {
-            const { data } = await Get(`${API_CONSTANTS.USERS.base}?${appendQueryParams(params)}`, token, {})
+            const { data } = await Get(`${API_CONSTANTS.PRODUCTS.base}?${appendQueryParams(params)}`, token, {})
             return data
         },
         keepPreviousData: true
     })
 }
 
-export const useCreateUser = () => {
+export const useCreateProduct = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
-            body = prepareData(body, API_CONSTANTS.USERS.dataKeys)
+            body = prepareData(body, API_CONSTANTS.PRODUCTS.dataKeys)
             const { data } = await Post({
-                path: API_CONSTANTS.USERS.base,
+                path: API_CONSTANTS.PRODUCTS.base,
                 token,
                 bodyObj: body,
                 showToast: true
@@ -34,69 +34,69 @@ export const useCreateUser = () => {
             return data
         },
         onSuccess: (data) => {
-            console.log(`onSuccess: User created successfully: ${data}`)
+            console.log(`onSuccess: Product created successfully: ${data}`)
         },
         onError: (error) => {
-            console.log(`onError: Error while creating user: ${error}`)
+            console.log(`onError: Error while creating Product: ${error}`)
         },
         onMutate: (body) => {
-            console.log(`onMutate: Creating user: ${body}`)
+            console.log(`onMutate: Creating Product: ${body}`)
         },
         onSettled: () => {
-            console.log(`onSettled: User created successfully`)
+            console.log(`onSettled: Product created successfully`)
         }
     })
 }
 
-export const useUpdateUser = () => {
+export const useUpdateProduct = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
-            body = prepareData(body, API_CONSTANTS.USERS.dataKeys)
+            body = prepareData(body, API_CONSTANTS.PRODUCTS.dataKeys)
             const { data } = await Put({
-                path: `${API_CONSTANTS.USERS.base}/${body.id}`,
+                path: `${API_CONSTANTS.PRODUCTS.base}/${body.id}`,
                 token,
                 bodyObj: body
             })
             return data
         },
         onSuccess: (data) => {
-            console.log(`onSuccess: User updated successfully: ${data}`)
+            console.log(`onSuccess: Product updated successfully: ${data}`)
         },
         onError: (error) => {
-            console.log(`onError: Error while updating user: ${error}`)
+            console.log(`onError: Error while updating Product: ${error}`)
         },
         onMutate: (body) => {
-            console.log(`onMutate: Updating user: ${body}`)
+            console.log(`onMutate: Updating Product: ${body}`)
         },
         onSettled: () => {
-            console.log(`onSettled: User updated successfully`)
+            console.log(`onSettled: Product updated successfully`)
         }
     })
 }
 
-export const useDeleteUser = () => {
+export const useDeleteProduct = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (id) => {
             const { data } = await Delete({
-                path: `${API_CONSTANTS.USERS.base}/${id}`,
+                path: `${API_CONSTANTS.PRODUCTS.base}/${id}`,
                 token,
                 showToast: true
             })
             return data
         },
         onSuccess: (data) => {
-            console.log(`onSuccess: User deleted successfully: ${data}`)
+            console.log(`onSuccess: Product deleted successfully: ${data}`)
         },
         onError: (error) => {
-            console.log(`onError: Error while deleting user: ${error}`)
+            console.log(`onError: Error while deleting Product: ${error}`)
         },
         onMutate: (id) => {
-            console.log(`onMutate: Deleting user: ${id}`)
+            console.log(`onMutate: Deleting Product: ${id}`)
         },
         onSettled: () => {
-            console.log(`onSettled: User deleted successfully`)
+            console.log(`onSettled: Product deleted successfully`)
         }
     })
 }
