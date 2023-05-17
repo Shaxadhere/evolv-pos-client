@@ -2,7 +2,7 @@ var Config = {
     ENVIRONMENT: "LOCAL", //current selected environment
     ENVIRONMENTS: {
         LOCAL: {
-            BASE_URL: "https://localhost:5000/api",
+            BASE_URL: "http://localhost:5000/api",
             PERSIST_SECRET_KEY: "local.secret",
         },
         DEVELOPMENT: {
@@ -14,7 +14,7 @@ var Config = {
             PERSIST_SECRET_KEY: "stg.secret",
         },
         PRODUCTION: {
-            BASE_URL: "http://evolvpos.net/api",
+            BASE_URL: "https://evolvpos.net/api",
             PERSIST_SECRET_KEY: "83jd9mjDWBABEILYoaiskdp9kDALASROWnuhnkaSADOKLKASDMNV",
         }
     }

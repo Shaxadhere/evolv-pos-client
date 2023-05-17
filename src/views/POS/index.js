@@ -3,31 +3,22 @@ import React, { useState } from 'react'
 import APP_ICONS from '../../config/constants/icons'
 import { colorKeys, getColor } from '../../config/constants/appColors'
 import ProductSection from '../../components/BasicUI/DataBoxes/ProductSection'
+import { useCategory } from '../../config/query/categoryQuery'
+import { useProducts } from '../../config/query/productQuery'
 
 const POS = () => {
   const { colorMode } = useColorMode()
   const [selectedCategory, setSelectedCategory] = useState("All")
-  const categories = [
-    "All",
-    "Electronics",
-    "Clothes",
-    "Shoes",
-    "Bags",
-    "Watches",
-    "Jewelries",
-    "Phones",
-    "Laptops",
-    "Accessories",
-    "Furniture",
-    "Beauty",
-    "Health",
-    "Sports",
-    "Books",
-    "Toys",
-    "Games",
-    "Food",
-    "Others"
-  ]
+
+  const categoryQuery = useCategory({
+    page: 1,
+    limit: 250,
+  })
+  const productsQuery = useProducts({
+    page: 1,
+    limit: 250,
+  })
+
 
   return (
     <Box>
@@ -37,31 +28,41 @@ const POS = () => {
       </InputGroup>
 
       <Flex mt={1} overflow={"auto"} py={1}>
-        {categories.map((item, index) => (
+        <Button
+          mx="1"
+          minW="fit-content"
+          size="sm"
+          onClick={() => setSelectedCategory({ name: "All", _id: "All" })}
+          bg={selectedCategory?._id === "All" ? getColor(colorKeys.dark, colorMode) : "transparent"}
+          color={selectedCategory?._id === "All" ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
+        >
+          All
+        </Button>
+        {categoryQuery?.data?.docs?.map((item, index) => (
           <Button
             mx="1"
             minW="fit-content"
             size="sm"
             key={index}
             onClick={() => setSelectedCategory(item)}
-            bg={selectedCategory === item ? getColor(colorKeys.dark, colorMode) : "transparent"}
-            color={selectedCategory === item ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
+            bg={selectedCategory?._id === item?._id ? getColor(colorKeys.dark, colorMode) : "transparent"}
+            color={selectedCategory?._id === item?._id ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
           >
-            {item}
+            {item?.name}
           </Button>
         ))}
       </Flex>
 
       <Box aria-label='product-list' mt={4}>
         <VStack spacing={4}>
-          {selectedCategory !== "All" && (
+          {selectedCategory?.name !== "All" && (
             <ProductSection item={selectedCategory} />
           )}
 
-          {selectedCategory === "All" && categories.map((item, index) => {
+          {selectedCategory?.name === "All" && categoryQuery?.data?.docs?.map((item, index) => {
             if (item !== "All") {
               return (
-                <ProductSection key={index} item={item} />
+                <ProductSection key={index} item={item?.name} productsQuery={productsQuery} />
               )
             }
           })}

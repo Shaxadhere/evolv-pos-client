@@ -13,7 +13,7 @@ export const useSales = (params) => {
     return useQuery({
         queryKey: ["sales", params],
         queryFn: async () => {
-            const { data } = await Get({
+            const { data }  = await Get({
                 path: `${API_CONSTANTS.SALES.base}?${appendQueryParams(params)}`,
                 token,
                 toastError: true,
@@ -30,7 +30,7 @@ export const useCreateSale = () => {
     return useMutation({
         mutationFn: async (body) => {
             body = prepareData(body, API_CONSTANTS.SALES.dataKeys)
-            const { data } = await Post({
+            const { data }  = await Post({
                 path: API_CONSTANTS.SALES.base,
                 token,
                 body,
@@ -59,7 +59,7 @@ export const useUpdateSale = () => {
     return useMutation({
         mutationFn: async (body) => {
             body = prepareData(body, API_CONSTANTS.SALES.dataKeys)
-            const { data } = await Put({
+            const { data }  = await Put({
                 path: `${API_CONSTANTS.SALES.base}/${body.id}`,
                 token,
                 body,
@@ -87,7 +87,7 @@ export const useDeleteSale = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (id) => {
-            const { data } = await Delete({
+            const { data }  = await Delete({
                 path: `${API_CONSTANTS.SALES.base}/${id}`,
                 token,
                 showToast: true

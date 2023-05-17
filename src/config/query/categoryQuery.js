@@ -8,12 +8,12 @@ import appendQueryParams from "../helpers/appendQueryParams";
 import API_CONSTANTS from "../constants/api";
 import { prepareData } from "../helpers/apiHelper";
 
-export const useProducts = (params) => {
+export const useCategory = (params) => {
     const token = useSelector((state) => state.user.token)
     return useQuery({
         queryKey: ["categories", params],
         queryFn: async () => {
-            const { data } = await Get({
+            const { data }  = await Get({
                 path: `${API_CONSTANTS.CATEGORIES.base}?${appendQueryParams(params)}`,
                 token,
                 toastError: true,
@@ -25,12 +25,12 @@ export const useProducts = (params) => {
     })
 }
 
-export const useCreateProduct = () => {
+export const useCreateCategory = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
             body = prepareData(body, API_CONSTANTS.CATEGORIES.dataKeys)
-            const { data } = await Post({
+            const { data }  = await Post({
                 path: API_CONSTANTS.CATEGORIES.base,
                 token,
                 body,
@@ -54,12 +54,12 @@ export const useCreateProduct = () => {
     })
 }
 
-export const useUpdateProduct = () => {
+export const useUpdateCategory = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
             body = prepareData(body, API_CONSTANTS.CATEGORIES.dataKeys)
-            const { data } = await Put({
+            const { data }  = await Put({
                 path: `${API_CONSTANTS.CATEGORIES.base}/${body.id}`,
                 token,
                 body,
@@ -83,11 +83,11 @@ export const useUpdateProduct = () => {
     })
 }
 
-export const useDeleteProduct = () => {
+export const useDeleteCategory = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (id) => {
-            const { data } = await Delete({
+            const { data }  = await Delete({
                 path: `${API_CONSTANTS.CATEGORIES.base}/${id}`,
                 token,
                 showToast: true

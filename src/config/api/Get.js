@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { BASE_URL, TENANT } from "../constants/api";
+import { BASE_URL } from "../constants/api";
 import { createStandaloneToast } from '@chakra-ui/toast'
 import { CONTENT_TYPE } from "../constants";
 const { toast } = createStandaloneToast()
@@ -8,7 +8,7 @@ const { toast } = createStandaloneToast()
 async function Get({ path, token, toastMessage, toastError, contentType = CONTENT_TYPE.JSON }) {
   try {
     let url = BASE_URL + path;
-    const headers = { "Content-Type": contentType, tenant: TENANT }
+    const headers = { "Content-Type": contentType }
     if (token) {
       headers.Authorization = `Bearer ${token}`
     }

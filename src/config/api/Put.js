@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URL, TENANT } from "../constants/api";
+import { BASE_URL } from "../constants/api";
 import { createStandaloneToast } from '@chakra-ui/toast'
 const { toast } = createStandaloneToast()
 
@@ -7,7 +7,7 @@ async function Put({ path, token, body, toastError, toastMessage }) {
   let url = BASE_URL + path;
   try {
 
-    const headers = { "Content-Type": "application/json", tenant: TENANT }
+    const headers = { "Content-Type": "application/json" }
     if (token) headers.Authorization = `Bearer ${token}`
 
     const { data } = await axios.put(url, body, headers);

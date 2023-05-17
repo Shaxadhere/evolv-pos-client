@@ -2,32 +2,23 @@
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
 import { createStandaloneToast } from '@chakra-ui/toast'
+import { CONTENT_TYPE } from "../constants";
 const { toast } = createStandaloneToast()
 
-async function Delete({ path, token, body, queryObj, showToast }) {
+async function Delete({ path, token, contentType = CONTENT_TYPE.JSON, showToast }) {
   let url = BASE_URL + path;
   try {
-    if (queryObj) {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { queryObj },
-      };
-      const { data } = await axios.delete(url, body, config);
-      return data;
+    const headers = { "Content-Type": contentType }
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
     }
-    const { data } = await axios.delete(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      data: body
-    })
+    const { data } = await axios.delete(url, { headers })
     if (showToast) {
-      const { apiMessage, success } = data
+      const { message, success } = data
       if (success) {
         toast({
           title: 'Congrats!',
-          description: apiMessage,
+          description: message,
           status: 'success',
           duration: 9000,
           isClosable: true,
@@ -36,7 +27,7 @@ async function Delete({ path, token, body, queryObj, showToast }) {
       else {
         toast({
           title: 'Oh oh!',
-          description: apiMessage || "Unknown error!",
+          description: message || "Unknown error!",
           status: 'error',
           duration: 9000,
           isClosable: true,
@@ -48,7 +39,7 @@ async function Delete({ path, token, body, queryObj, showToast }) {
     if (showToast) {
       toast({
         title: 'Oh oh!',
-        description: error?.response?.data?.apiMessage || "Unknown error!",
+        description: error?.response?.data?.message || "Unknown error!",
         status: 'error',
         duration: 9000,
         isClosable: true,
