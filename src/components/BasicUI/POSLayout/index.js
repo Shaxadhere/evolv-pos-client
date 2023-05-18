@@ -9,7 +9,7 @@ const POSLayout = () => {
     return (
         <Box>
             <Header />
-            <Sider />
+            {/* <Sider />
             <Box as="main"
                 pos="fixed"
                 top="60px"
@@ -19,11 +19,11 @@ const POSLayout = () => {
                 h="calc(100vh - 60px)"
                 overflowY="auto"
                 p="20px"
-            >
+            > */}
 
                 <Outlet />
-            </Box>
-            <RightSider />
+            {/* </Box>
+            <RightSider /> */}
         </Box>
     )
 }
