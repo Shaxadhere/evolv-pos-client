@@ -1,16 +1,23 @@
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { Avatar, Badge, Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, VStack, useColorMode } from '@chakra-ui/react'
+import { Avatar, Badge, Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, Menu, MenuButton, MenuItem, MenuList, Text, VStack, useColorMode } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import APP_ICONS from '../../../config/constants/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { ORDER_TYPES } from '../../../config/constants/options'
 import { setOrderType } from '../../../config/redux/slices/cartSlice'
+import { useSales } from '../../../config/query/saleQuery'
+import IMAGES from '../../../config/constants/images'
 
 const Sider = () => {
   const { colorMode } = useColorMode()
   const { orderType } = useSelector(state => state.cart)
   const dispatch = useDispatch()
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 250,
+  })
+  const salesQuery = useSales(query)
 
   return (
     <Box
@@ -68,7 +75,12 @@ const Sider = () => {
         <Divider />
 
         <VStack spacing={3} w="full">
-          {new Array(9).fill(0).map(() =>
+          {salesQuery?.data?.docs?.length === 0 && (
+            <Flex h="calc(100vh - 205px)" align="center" justify={"center"}>
+              <Image src={IMAGES.EMPTY_BOX} objectFit={"contain"} h="180px" w="full" filter={"grayscale(1)"} />
+            </Flex>
+          )}
+          {salesQuery?.data?.docs?.map(() =>
             <>
               <Box>
                 <Flex w="full" align="center">

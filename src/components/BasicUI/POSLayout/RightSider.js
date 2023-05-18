@@ -72,7 +72,7 @@ const RightSider = () => {
                     <VStack spacing={5}>
                         {cartItems?.length === 0 && (
                             <Flex h="calc(100vh - 180px)" align="center" justify={"center"}>
-                                <Image src={IMAGES.EMPTY_CART} h="180px" w="full" />
+                                <Image src={IMAGES.EMPTY_BOX} h="180px" w="full" objectFit={"contain"} filter={"grayscale(1)"} />
                             </Flex>
                         )}
                         {cartItems.map((item, index) =>

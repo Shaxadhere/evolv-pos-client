@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, SimpleGrid, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Icon, Image, Input, InputGroup, InputLeftElement, SimpleGrid, VStack, useColorMode } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import APP_ICONS from '../../config/constants/icons'
 import { colorKeys, getColor } from '../../config/constants/appColors'
@@ -9,6 +9,7 @@ import RightSider from '../../components/BasicUI/POSLayout/RightSider'
 import Sider from '../../components/BasicUI/POSLayout/Sider'
 import { useDispatch } from 'react-redux'
 import { addItemToCart } from '../../config/redux/slices/cartSlice'
+import IMAGES from '../../config/constants/images'
 
 const POS = () => {
   const { colorMode } = useColorMode()
@@ -87,6 +88,11 @@ const POS = () => {
                 <Button variant={"ghost"} size="sm">See All</Button>
 
               </Flex>
+              {productsQuery?.data?.docs?.length === 0 && (
+                <Flex h="calc(100vh - 245px)" align="center" justify={"center"}>
+                  <Image src={IMAGES.EMPTY_BOX} h="180px" w="full" objectFit={"contain"} filter={"grayscale(1)"} />
+                </Flex>
+              )}
               <SimpleGrid spacing={4} mt={3} columns={{ base: 1, sm: 2, md: 4 }}>
                 {productsQuery?.data?.docs?.map((item, index) => (
                   <ProductCard key={index} product={item} onAddToCart={handleAddProduct} />
