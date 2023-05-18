@@ -26,6 +26,24 @@ export const cartSlice = createSlice({
             //else add item to cart
             state.items.push(payload)
         },
+        updateQuantity: (state, { payload }) => {
+            let items = [...state.items]
+            const quantity = payload.quantity
+
+            if (quantity <= 0) {
+                items = items.filter(i => i._id !== payload._id)
+                state.items = items
+                return
+            }
+            const itemIndex = items.findIndex(i => i._id === payload._id)
+            if (itemIndex !== -1) {
+                items[itemIndex] = {
+                    ...items[itemIndex],
+                    quantity
+                }
+            }
+            state.items = items
+        },
         removeItemFromCart: (state, { payload }) => {
             state.items = state.items.filter(item => item._id !== payload)
         },

@@ -4,46 +4,18 @@ import APP_ICONS from '../../../config/constants/icons'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import ImageBox from './ImageBox'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceCart } from '../../../config/redux/slices/cartSlice'
+import { replaceCart, updateQuantity } from '../../../config/redux/slices/cartSlice'
 
 const CartItem = ({ item }) => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
 
-    const { items: cartItems } = useSelector(state => state.cart)
-
     const handleDecrease = () => {
-        let _cartItems = [...cartItems]
-        const quantity = item.quantity - 1
-
-        if (quantity <= 0) {
-            _cartItems = _cartItems.filter(i => i._id !== item._id)
-            dispatch(replaceCart(_cartItems))
-            return
-        }
-        const itemIndex = _cartItems.findIndex(i => i._id === item._id)
-        if (itemIndex !== -1) {
-            _cartItems[itemIndex].quantity = quantity
-        }
-        dispatch(replaceCart(_cartItems))
+        dispatch(updateQuantity({ _id: item._id, quantity: item.quantity - 1 }))
     }
 
     const handleIncrease = () => {
-        let _cartItems = Array.from(cartItems)
-        const quantity = item.quantity + 1
-
-        //manage inventory here if required
-        // if (quantity <= 0) {
-        //     _cartItems = _cartItems.filter(i => i._id !== item._id)
-        //     dispatch(replaceCart(_cartItems))
-        //     return
-        // }
-        const itemIndex = _cartItems.findIndex(i => i._id === item._id)
-        if (itemIndex !== -1) {
-            console.log("itemIndex", itemIndex, _cartItems[itemIndex])
-            _cartItems[itemIndex].quantity = quantity
-        }
-        // dispatch(replaceCart(_cartItems))
+        dispatch(updateQuantity({ _id: item._id, quantity: item.quantity + 1 }))
     }
 
     return (
