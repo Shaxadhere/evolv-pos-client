@@ -30,6 +30,8 @@ const RightSider = () => {
         }
     }
 
+
+
     return (
         <Flex
             pos={"fixed"}
@@ -117,20 +119,20 @@ const RightSider = () => {
                     <VStack mt={5} spacing={3} w="full">
                         <Flex w="full" justify={"space-between"} align={"center"}>
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. 22,000</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().subTotal}</Text>
                         </Flex>
                         <Flex w="full" justify={"space-between"} align={"center"}>
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Discount:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. 500</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().discount}</Text>
                         </Flex>
                         <Flex w="full" justify={"space-between"} align={"center"}>
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total Sales Tax:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. 1500</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().tax}</Text>
                         </Flex>
                         <Divider />
                         <Flex w="full" justify={"space-between"} align={"center"}>
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. 23,000</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().total}</Text>
                         </Flex>
                         <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)}>Finish</Button>
                     </VStack>
