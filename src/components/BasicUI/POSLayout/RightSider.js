@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import CartItem from '../DataBoxes/CartItem'
@@ -14,6 +14,7 @@ import { useQueryClient } from '@tanstack/react-query'
 const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
+    const [amount, setAmount] = React.useState(0)
     const { items: cartItems, isFinishing, orderNumber, paymentMethod, isCheckingOut } = useSelector(state => state.cart)
     const queryClient = useQueryClient()
 
@@ -63,6 +64,25 @@ const RightSider = () => {
         dispatch(setIsFinishing(false))
         dispatch(resetCart())
         queryClient.invalidateQueries({ queryKey: ['sales'] })
+    }
+
+    const handleAmountChange = (value) => {
+        if (value === "C") {
+            setAmount("0")
+            return;
+        }
+        if (value === "CE") {
+            setAmount(String(amount).slice(0, -1))
+            return;
+        }
+        if (value === ".") {
+            if (amount.includes(".")) return;
+        }
+        if (amount == 0) {
+            setAmount(String(value))
+            return;
+        }
+        setAmount(String(amount) + String(value))
     }
 
     return (
@@ -142,92 +162,87 @@ const RightSider = () => {
                 isOpen={isFinishing}
                 onClose={() => dispatch(setIsFinishing(false))}
                 footer={
-                    <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)} onClick={() => dispatch(setIsCheckingOut(true))}>Checkout</Button>
+                    <Button
+                        w="full"
+                        size="lg"
+                        bg={getColor(colorKeys.dark, colorMode)}
+                        color={getColor(colorKeys.white, colorMode)}
+                        onClick={handleFinishSale}
+                        isLoading={createSaleQuery.isLoading}
+                        isDisabled={paymentMethod === "" || !amount || amount === "0" || parseFloat(amount) < calculateTotal().total}
+                    >
+                        Checkout
+                    </Button>
                 }
             >
-                <Box
-                    aria-label='receipt'
-                    border="1px solid #eee"
-                    p={"10px"}
-                    rounded="md"
-                >
-                    <SimpleGrid columns={3} mt={5} spacing={5}>
-                        {PAYMENT_METHODS.map((item, index) => {
-                            const color = paymentMethod === item.name ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.gray, colorMode)
-                            const bg = paymentMethod === item.name ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.white, colorMode)
-                            return (
-                                <Flex
-                                    onClick={() => dispatch(setPaymentMethod(item.name))}
-                                    key={index}
-                                    bg={bg}
-                                    rounded={"xl"} p="15px" border={"1px solid #eee"} justify="center" flexDir="column" cursor={"pointer"}>
-                                    <Icon
-                                        m="auto"
-                                        as={item.icon}
-                                        color={color}
-                                        boxSize="10"
-                                    />
-                                    <Text
-                                        textAlign={"center"}
-                                        fontSize={"18px"}
-                                        mt={2}
-                                        color={color}
-                                    >
-                                        {item.name}
-                                    </Text>
-                                </Flex>
-                            )
-                        })}
-                    </SimpleGrid>
-                    <VStack mt={5} spacing={3} w="full">
-                        <Flex w="full" justify={"space-between"} align={"center"}>
-                            <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().subTotal}</Text>
-                        </Flex>
-                        <Flex w="full" justify={"space-between"} align={"center"}>
-                            <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Discount:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().discount}</Text>
-                        </Flex>
-                        <Flex w="full" justify={"space-between"} align={"center"}>
-                            <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total Sales Tax:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().tax}</Text>
-                        </Flex>
-                        <Divider />
-                        <Flex w="full" justify={"space-between"} align={"center"}>
-                            <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>
-                            <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().total}</Text>
-                        </Flex>
-                        <Button
-                            w="full"
-                            size="lg"
-                            bg={getColor(colorKeys.dark, colorMode)}
-                            color={getColor(colorKeys.white, colorMode)}
-                            onClick={handleFinishSale}
-                            isLoading={createSaleQuery.isLoading}
-                            isDisabled={paymentMethod === ""}
-                        >
-                            Checkout
-                        </Button>
-                    </VStack>
-
-                </Box>
-            </CustomDrawer>
-
-            <CustomDrawer
-                heading={"Checkout"}
-                isOpen={isCheckingOut}
-                onClose={() => dispatch(setIsCheckingOut(false))}
-                footer={
-                    <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)}>Finish</Button>
-                }>
                 <Flex
                     flexDir={"column"}
-                    justify={"space-between"}
-                    aria-label='checkout'
+                    aria-label='receipt'
                     p={"10px"}
                     rounded="md"
+                    justify={"space-between"}
+                    h={"calc(100vh - 160px)"}
                 >
-                    <VStack spacing={3} w="full">
+                    <Box>
+                        <SimpleGrid columns={3} mt={5} spacing={5}>
+                            {PAYMENT_METHODS.map((item, index) => {
+                                const color = paymentMethod === item.name ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.gray, colorMode)
+                                const bg = paymentMethod === item.name ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.white, colorMode)
+                                return (
+                                    <Flex
+                                        onClick={() => dispatch(setPaymentMethod(item.name))}
+                                        key={index}
+                                        bg={bg}
+                                        rounded={"xl"} p="15px" border={"1px solid #eee"} justify="center" flexDir="column" cursor={"pointer"}>
+                                        <Icon
+                                            m="auto"
+                                            as={item.icon}
+                                            color={color}
+                                            boxSize="10"
+                                        />
+                                        <Text
+                                            textAlign={"center"}
+                                            fontSize={"18px"}
+                                            mt={2}
+                                            color={color}
+                                        >
+                                            {item.name}
+                                        </Text>
+                                    </Flex>
+                                )
+                            })}
+                        </SimpleGrid>
+                        <VStack mt={5} spacing={3} w="full">
+                            <Flex w="full" justify={"space-between"} align={"center"}>
+                                <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
+                                <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().subTotal}</Text>
+                            </Flex>
+                            <Flex w="full" justify={"space-between"} align={"center"}>
+                                <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Discount:</Text>
+                                <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().discount}</Text>
+                            </Flex>
+                            <Flex w="full" justify={"space-between"} align={"center"}>
+                                <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total Sales Tax:</Text>
+                                <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().tax}</Text>
+                            </Flex>
+                            <Divider />
+                            <Flex w="full" justify={"space-between"} align={"center"}>
+                                <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>
+                                <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().total}</Text>
+                            </Flex>
+                            {amount > 0 && (
+                                <>
+                                    <Divider />
+                                    <Flex w="full" justify={"space-between"} align={"center"}>
+                                        <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Return:</Text>
+                                        <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {amount - calculateTotal().total}</Text>
+                                    </Flex>
+                                </>
+                            )}
+                        </VStack>
+                    </Box>
+
+                    <VStack spacing={3} mt={5} w="full">
                         <InputGroup w="full">
                             <InputLeftAddon children="PKR" />
                             <Input value={amount} type="number" placeholder="Enter amount" />
@@ -243,7 +258,6 @@ const RightSider = () => {
                         <SimpleGrid columns={3} w="full" spacing={4}>
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, "00", 0, "."].map((item, index) => (
                                 <Button
-                                    h="60px"
                                     key={index}
                                     onClick={() => handleAmountChange(item)}
                                 >
