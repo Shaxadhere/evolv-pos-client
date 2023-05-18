@@ -14,3 +14,15 @@ export const PAYMENT_METHODS = [
         icon: APP_ICONS.QR_CODE,
     }
 ]
+
+export const ORDER_TYPES = [
+    {
+        name: "Dine In",
+    },
+    {
+        name: "Delivery",
+    },
+    {
+        name: "Take Away",
+    }
+]

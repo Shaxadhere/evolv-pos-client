@@ -23,6 +23,10 @@ const RightSider = () => {
             discount += item.discount * item.quantity
             tax += item.tax * item.quantity
         })
+        subTotal = subTotal || 0
+        discount = discount || 0
+        tax = tax || 0
+
         let total = subTotal + tax - discount
         return {
             total,
@@ -67,7 +71,7 @@ const RightSider = () => {
                     </Flex>
                     <VStack spacing={5}>
                         {cartItems?.length === 0 && (
-                            <Flex h="calc(100vh - 175px)" align="center" justify={"center"}>
+                            <Flex h="calc(100vh - 180px)" align="center" justify={"center"}>
                                 <Image src={IMAGES.EMPTY_CART} h="180px" w="full" />
                             </Flex>
                         )}
@@ -84,7 +88,7 @@ const RightSider = () => {
                         size="lg"
                         colorScheme='red'
                         color={getColor(colorKeys.white, colorMode)}
-                        onClick={()=> dispatch(resetCart())}
+                        onClick={() => dispatch(resetCart())}
                     />
                     <Button
                         w="full"
@@ -152,7 +156,7 @@ const RightSider = () => {
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>
                             <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().total}</Text>
                         </Flex>
-                        <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)}>Finish</Button>
+                        <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)}>Checkout</Button>
                     </VStack>
 
                 </Box>

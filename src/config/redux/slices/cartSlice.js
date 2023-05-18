@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { PAYMENT_METHODS } from '../../constants/options';
+import { ORDER_TYPES, PAYMENT_METHODS } from '../../constants/options';
 
 const initialState = {
     items: [],
     orderNumber: null,
     isFinishing: false,
     paymentMethod: PAYMENT_METHODS[0].name,
+    orderType: ORDER_TYPES[0].name
 }
 
 export const cartSlice = createSlice({
@@ -56,6 +57,7 @@ export const cartSlice = createSlice({
             state.orderNumber = null
             state.isFinishing = false
             state.paymentMethod = PAYMENT_METHODS[0].name
+            state.orderType = ORDER_TYPES[0].name
             return
         },
 
@@ -67,11 +69,14 @@ export const cartSlice = createSlice({
         },
         setPaymentMethod: (state, { payload }) => {
             state.paymentMethod = payload
+        },
+        setOrderType: (state, { payload }) => {
+            state.orderType = payload
         }
     },
     extraReducers: {},
 })
 
-export const { addItemToCart, removeItemFromCart, replaceCart, resetCart, setIsFinishing, setOrderNumber, setPaymentMethod, updateQuantity } = cartSlice.actions
+export const { addItemToCart, removeItemFromCart, replaceCart, resetCart, setIsFinishing, setOrderNumber, setPaymentMethod, updateQuantity, setOrderType } = cartSlice.actions
 
 export default cartSlice.reducer

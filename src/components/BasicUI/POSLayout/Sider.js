@@ -3,15 +3,15 @@ import { Avatar, Badge, Box, Button, Divider, Flex, HStack, Heading, Icon, IconB
 import React, { useState } from 'react'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import APP_ICONS from '../../../config/constants/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { ORDER_TYPES } from '../../../config/constants/options'
+import { setOrderType } from '../../../config/redux/slices/cartSlice'
 
 const Sider = () => {
   const { colorMode } = useColorMode()
-  const [selectedOrderType, setSelectedOrderType] = useState("Dine in")
-  const orderTypes = [
-    "Dine in",
-    "Delivery",
-    "Takeaway"
-  ]
+  const { orderType } = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+
   return (
     <Box
       pos="fixed"
@@ -27,16 +27,16 @@ const Sider = () => {
       <VStack spacing={4}>
 
         <Flex w="full" justify={"space-between"} align="center" bg={getColor(colorKeys.lightGray, colorMode)} px="5px" py="5px" rounded="md">
-          {orderTypes.map((item, index) =>
+          {ORDER_TYPES.map((item, index) =>
             <Button
               key={index}
               minW="110px"
-              onClick={() => setSelectedOrderType(item)}
+              onClick={() => dispatch(setOrderType(item.name))}
               size="sm"
-              bg={selectedOrderType === item ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.white, colorMode)}
-              color={selectedOrderType === item ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
+              bg={orderType === item.name ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.white, colorMode)}
+              color={orderType === item.name ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
             >
-              {item}
+              {item.name}
             </Button>
           )}
         </Flex>

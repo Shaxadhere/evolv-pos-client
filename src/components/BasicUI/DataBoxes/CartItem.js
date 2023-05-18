@@ -4,7 +4,7 @@ import APP_ICONS from '../../../config/constants/icons'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import ImageBox from './ImageBox'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceCart, updateQuantity } from '../../../config/redux/slices/cartSlice'
+import { removeItemFromCart, replaceCart, updateQuantity } from '../../../config/redux/slices/cartSlice'
 
 const CartItem = ({ item }) => {
     const { colorMode } = useColorMode()
@@ -16,6 +16,10 @@ const CartItem = ({ item }) => {
 
     const handleIncrease = () => {
         dispatch(updateQuantity({ _id: item._id, quantity: item.quantity + 1 }))
+    }
+
+    const handleRemove = () => {
+        dispatch(removeItemFromCart(item._id))
     }
 
     return (
@@ -31,7 +35,7 @@ const CartItem = ({ item }) => {
                 </Flex>
             </Flex>
             <Flex justify={"space-between"} flexDir={"column"} align="end" h="120px">
-                <CloseButton />
+                <CloseButton onClick={handleRemove}/>
                 <HStack spacing={3} bg={getColor(colorKeys.dark, colorMode)} rounded={"full"}>
                     <IconButton
                         bg={`transparent !important`}
