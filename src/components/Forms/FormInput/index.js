@@ -38,7 +38,6 @@ const FormInput = ({ label, placeholder, id, required = false, errors = {}, cont
             </FormLabel>
             <InputGroup>
               {leftAddon}
-
               <Input
                 value={type === "date" ? formatDate(value, true).toLocaleString() : value}
                 onChange={onChange}

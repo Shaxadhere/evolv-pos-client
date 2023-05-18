@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import FormDrawer from '../../../components/Forms/FormDrawer'
-import { SimpleGrid } from '@chakra-ui/react'
+import { InputLeftAddon, SimpleGrid, VStack } from '@chakra-ui/react'
 import FormInput from '../../../components/Forms/FormInput'
 import FormSwitch from '../../../components/Forms/FormSwitch'
 import { useSelector } from 'react-redux'
 import FormSearchSelect from '../../../components/Forms/FormSearchSelect'
+import { useCategory } from '../../../config/query/categoryQuery'
+import { makeSelectList } from '../../../config/helpers/selectListHelper'
 
 const ProductForm = ({ disclosure, data }) => {
 
     const token = useSelector((state) => state.user.token)
     const [isUploading, setIsUploading] = useState(false)
+    const categoryQuery = useCategory({
+        pageNo: 1,
+        pageSize: 250,
+    })
 
     // const productsQuery = useProducts({
     //     pageNo: 1,
@@ -63,54 +69,45 @@ const ProductForm = ({ disclosure, data }) => {
 
             </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} mt={5}>
+            <SimpleGrid columns={{ base: 1, md: 4 }} spacing={5} mt={5}>
 
-                <FormSearchSelect
-                    id="cohortId"
-                    label="Cohort"
-                    placeholder={'Select Cohort'}
-                    required={true}
-                    errors={errors}
+                <FormInput
+                    label={"Price Per Unit"}
                     control={control}
-                // options={makeSelectList(cohortOptionsQuery?.data)}
-                />
-
-                <FormSearchSelect
-                    id="chapterId"
-                    label="Chapter"
-                    placeholder={'Select Chapter'}
-                    required={true}
                     errors={errors}
-                    control={control}
-                // options={makeSelectList(chapterOptionsQuery?.data)}
+                    id="pricePerUnit"
+                    required={true}
+                    leftAddon={<InputLeftAddon children={'PKR'} />}
+                    type={"number"}
+                    placeholder={"Enter price per unit"}
                 />
 
                 <FormInput
-                    label={"Available Start Date Time"}
+                    label={"Quantity"}
                     control={control}
                     errors={errors}
-                    id="availableStartDateTime"
+                    id="quantity"
                     required={true}
-                    type={"datetime-local"}
+                    type={"number"}
+                    placeholder={"Enter quantity"}
                 />
 
-                <FormInput
-                    label={"Available End Date Time"}
-                    control={control}
-                    errors={errors}
-                    id="availableEndDateTime"
-                    required={true}
-                    type={"datetime-local"}
-                />
 
-                <FormSwitch
-                    label={"Status"}
-                    control={control}
+                <FormSearchSelect
+                    id="category"
+                    label="Category"
+                    placeholder={'Select Category'}
+                    required={true}
                     errors={errors}
-                    id="status"
+                    control={control}
+                    options={makeSelectList(categoryQuery?.data?.docs)}
                 />
 
             </SimpleGrid>
+
+            <VStack spacing={5} mt={5}>
+                
+            </VStack>
 
             <FormInput
                 type={"hidden"}
