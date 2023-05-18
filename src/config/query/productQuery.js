@@ -17,7 +17,7 @@ export const useProducts = (params) => {
                 path: `${API_CONSTANTS.PRODUCTS.base}?${appendQueryParams(params)}`,
                 token,
                 toastError: true,
-                toastMessage: true
+                toastMessage: false
             })
             return data
         },

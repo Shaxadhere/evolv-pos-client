@@ -1,10 +1,10 @@
-import { Box, CloseButton, Flex, HStack, Heading, Icon, IconButton, Image, Text, useColorMode } from '@chakra-ui/react'
+import { Box, CloseButton, Flex, HStack, Heading, Icon, IconButton, Text, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 import APP_ICONS from '../../../config/constants/icons'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import ImageBox from './ImageBox'
-import { useDispatch, useSelector } from 'react-redux'
-import { removeItemFromCart, replaceCart, updateQuantity } from '../../../config/redux/slices/cartSlice'
+import { useDispatch } from 'react-redux'
+import { removeItemFromCart, updateQuantity } from '../../../config/redux/slices/cartSlice'
 
 const CartItem = ({ item }) => {
     const { colorMode } = useColorMode()
@@ -35,7 +35,7 @@ const CartItem = ({ item }) => {
                 </Flex>
             </Flex>
             <Flex justify={"space-between"} flexDir={"column"} align="end" h="120px">
-                <CloseButton onClick={handleRemove}/>
+                <CloseButton onClick={handleRemove} />
                 <HStack spacing={3} bg={getColor(colorKeys.dark, colorMode)} rounded={"full"}>
                     <IconButton
                         bg={`transparent !important`}

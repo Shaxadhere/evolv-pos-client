@@ -15,18 +15,24 @@ const POS = () => {
   const dispatch = useDispatch()
   const [selectedCategory, setSelectedCategory] = useState("All")
 
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 250,
+  })
+
   const categoryQuery = useCategory({
     page: 1,
     limit: 250,
   })
-  const productsQuery = useProducts({
-    page: 1,
-    limit: 250,
-  })
+  const productsQuery = useProducts(query)
 
 
   const handleAddProduct = (product) => {
     dispatch(addItemToCart({ ...product, quantity: 1 }))
+  }
+
+  const onQueryChange = ({ key, value }) => {
+    setQuery({ ...query, [key]: value })
   }
 
   return (
@@ -43,7 +49,7 @@ const POS = () => {
         p="20px"
       >
         <InputGroup bg="gray.100" rounded="md" >
-          <Input placeholder="Search anything..." />
+          <Input placeholder="Search anything..." value={query?.name} onChange={(e) => onQueryChange({ key: "name", value: e.target.value })} />
           <InputLeftElement children={<Icon as={APP_ICONS.SEARCH} />} />
         </InputGroup>
 
@@ -52,9 +58,9 @@ const POS = () => {
             mx="1"
             minW="fit-content"
             size="sm"
-            onClick={() => setSelectedCategory({ name: "All", _id: "All" })}
-            bg={selectedCategory?._id === "All" ? getColor(colorKeys.dark, colorMode) : "transparent"}
-            color={selectedCategory?._id === "All" ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
+            onClick={() => onQueryChange({ key: "category", value: "" })}
+            bg={!query?.category ? getColor(colorKeys.dark, colorMode) : "transparent"}
+            color={!query?.category ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
           >
             All
           </Button>
@@ -64,9 +70,9 @@ const POS = () => {
               minW="fit-content"
               size="sm"
               key={index}
-              onClick={() => setSelectedCategory(item)}
-              bg={selectedCategory?._id === item?._id ? getColor(colorKeys.dark, colorMode) : "transparent"}
-              color={selectedCategory?._id === item?._id ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
+              onClick={() => onQueryChange({ key: "category", value: item?._id })}
+              bg={query?.category === item?._id ? getColor(colorKeys.dark, colorMode) : "transparent"}
+              color={query?.category === item?._id ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
             >
               {item?.name}
             </Button>
