@@ -4,9 +4,10 @@ import { colorKeys, getColor } from '../../../config/constants/appColors'
 import CartItem from '../DataBoxes/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomDrawer from '../Drawers/CustomDrawer'
-import { setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
+import { resetCart, setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
 import { PAYMENT_METHODS } from '../../../config/constants/options'
 import IMAGES from '../../../config/constants/images'
+import APP_ICONS from '../../../config/constants/icons'
 
 const RightSider = () => {
     const { colorMode } = useColorMode()
@@ -76,15 +77,25 @@ const RightSider = () => {
                     </VStack>
                 </VStack>
 
-                <Button
-                    w="full"
-                    size="lg"
-                    bg={getColor(colorKeys.dark, colorMode)}
-                    color={getColor(colorKeys.white, colorMode)}
-                    onClick={() => dispatch(setIsFinishing(true))}
-                >
-                    Finish
-                </Button>
+                <HStack spacing={2}>
+                    <IconButton
+                        icon={<Icon as={APP_ICONS.BIN} />}
+                        aria-label='Reset Cart'
+                        size="lg"
+                        colorScheme='red'
+                        color={getColor(colorKeys.white, colorMode)}
+                        onClick={()=> dispatch(resetCart())}
+                    />
+                    <Button
+                        w="full"
+                        size="lg"
+                        bg={getColor(colorKeys.dark, colorMode)}
+                        color={getColor(colorKeys.white, colorMode)}
+                        onClick={() => dispatch(setIsFinishing(true))}
+                    >
+                        Finish
+                    </Button>
+                </HStack>
             </Flex>
 
 
