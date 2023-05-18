@@ -3,19 +3,20 @@ import React from 'react'
 import IMAGES from '../../../config/constants/images'
 import APP_ICONS from '../../../config/constants/icons'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
+import ImageBox from './ImageBox'
 
 const CartItem = ({ item }) => {
     const { colorMode } = useColorMode()
     return (
         <Flex align={"center"} justify={"space-between"} w="full" p="10px" border={"1px solid #eee"} rounded={'md'}>
             <Flex>
-                <Image src={IMAGES.DUMMY_PRODUCT} w="120px" h="120px" rounded="md" />
+                <ImageBox src={item?.photo} w="120px" h="120px" rounded="md" />
                 <Flex flexDir={"column"} ml="10px" justify={"space-between"}>
                     <Box>
                         <Heading as="h3" fontSize="16px">{item.name}</Heading>
-                        <Text fontSize="14px">{item.category}</Text>
+                        <Text fontSize="14px">{item?.category?.name}</Text>
                     </Box>
-                    <Text fontSize="14px">PKR {item.price}</Text>
+                    <Text fontSize="14px">PKR {item?.pricePerUnit}</Text>
                 </Flex>
             </Flex>
             <Flex justify={"space-between"} flexDir={"column"} align="end" h="120px">

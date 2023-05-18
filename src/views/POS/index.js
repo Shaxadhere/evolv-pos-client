@@ -7,9 +7,12 @@ import { useProducts } from '../../config/query/productQuery'
 import ProductCard from '../../components/BasicUI/DataBoxes/ProductCard'
 import RightSider from '../../components/BasicUI/POSLayout/RightSider'
 import Sider from '../../components/BasicUI/POSLayout/Sider'
+import { useDispatch } from 'react-redux'
+import { addItemToCart } from '../../config/redux/slices/cartSlice'
 
 const POS = () => {
   const { colorMode } = useColorMode()
+  const dispatch = useDispatch()
   const [selectedCategory, setSelectedCategory] = useState("All")
 
   const categoryQuery = useCategory({
@@ -20,6 +23,11 @@ const POS = () => {
     page: 1,
     limit: 250,
   })
+
+
+  const handleAddProduct = (product) => {
+    dispatch(addItemToCart({ ...product, quantity: 1 }))
+  }
 
   return (
     <Box>
@@ -75,7 +83,7 @@ const POS = () => {
               </Flex>
               <SimpleGrid spacing={4} mt={3} columns={{ base: 1, sm: 2, md: 4 }}>
                 {productsQuery?.data?.docs?.map((item, index) => (
-                  <ProductCard key={index} product={item} />
+                  <ProductCard key={index} product={item} onAddToCart={handleAddProduct} />
                 ))}
               </SimpleGrid>
             </Box>

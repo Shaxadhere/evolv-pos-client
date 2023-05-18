@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomDrawer from '../Drawers/CustomDrawer'
 import { setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
 import { PAYMENT_METHODS } from '../../../config/constants/options'
+import IMAGES from '../../../config/constants/images'
 
 const RightSider = () => {
     const { colorMode } = useColorMode()
@@ -30,8 +31,6 @@ const RightSider = () => {
         }
     }
 
-
-
     return (
         <Flex
             pos={"fixed"}
@@ -47,28 +46,36 @@ const RightSider = () => {
             flexDir={"column"}
 
         >
-            <Box aria-label='cart' overflow={"auto"}>
-                <Flex align={"center"} justify={"space-between"}>
-                    <Heading as="h2" fontSize="20px">Cart</Heading>
-                    {orderNumber && (
-                        <Text
-                            fontSize={"14px"}
-                            fontWeight={"bold"}
-                            bg={getColor(colorKeys.dark, colorMode)}
-                            color={getColor(colorKeys.white, colorMode)}
-                            px="10px"
-                            py="5px"
-                            borderRadius="5px"
-                        >
-                            Order No. #{orderNumber}
-                        </Text>
-                    )}
-                </Flex>
-                <VStack spacing={5} mt={5}>
-                    {cartItems.map((item, index) =>
-                        <CartItem item={item} key={index} />
-                    )}
+            <Flex flexDirection={"column"} justify={"space-between"} aria-label='cart' overflow={"auto"} h="calc(100vh - 80px)">
+                <VStack spacing={5}>
+                    <Flex w="full" align={"center"} justify={"space-between"}>
+                        <Heading as="h2" fontSize="20px">Cart</Heading>
+                        {orderNumber && (
+                            <Text
+                                fontSize={"14px"}
+                                fontWeight={"bold"}
+                                bg={getColor(colorKeys.dark, colorMode)}
+                                color={getColor(colorKeys.white, colorMode)}
+                                px="10px"
+                                py="5px"
+                                borderRadius="5px"
+                            >
+                                Order No. #{orderNumber}
+                            </Text>
+                        )}
+                    </Flex>
+                    <VStack spacing={5}>
+                        {cartItems?.length === 0 && (
+                            <Flex h="calc(100vh - 175px)" align="center" justify={"center"}>
+                                <Image src={IMAGES.EMPTY_CART} h="180px" w="full" />
+                            </Flex>
+                        )}
+                        {cartItems.map((item, index) =>
+                            <CartItem item={item} key={index} />
+                        )}
+                    </VStack>
                 </VStack>
+
                 <Button
                     w="full"
                     size="lg"
@@ -78,7 +85,7 @@ const RightSider = () => {
                 >
                     Finish
                 </Button>
-            </Box>
+            </Flex>
 
 
             <CustomDrawer heading={"Receipt"} isOpen={isFinishing} onClose={() => dispatch(setIsFinishing(false))}>
