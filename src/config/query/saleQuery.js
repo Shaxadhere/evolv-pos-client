@@ -29,7 +29,6 @@ export const useCreateSale = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
-            body = prepareData(body, API_CONSTANTS.SALES.dataKeys)
             const { data } = await Post({
                 path: API_CONSTANTS.SALES.base,
                 token,

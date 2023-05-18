@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
+import React from 'react'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import CartItem from '../DataBoxes/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,12 +8,16 @@ import { resetCart, setIsCheckingOut, setIsFinishing, setPaymentMethod } from '.
 import { PAYMENT_METHODS } from '../../../config/constants/options'
 import IMAGES from '../../../config/constants/images'
 import APP_ICONS from '../../../config/constants/icons'
+import { useCreateSale } from '../../../config/query/saleQuery'
+import { useQueryClient } from '@tanstack/react-query'
 
 const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
-    const [amount, setAmount] = useState(0)
     const { items: cartItems, isFinishing, orderNumber, paymentMethod, isCheckingOut } = useSelector(state => state.cart)
+    const queryClient = useQueryClient()
+
+    const createSaleQuery = useCreateSale()
 
     const calculateTotal = () => {
         let subTotal = 0
@@ -33,17 +37,32 @@ const RightSider = () => {
             total,
             subTotal,
             tax,
-            discount
+            discount,
         }
     }
 
-    const handleAmountChange = (value) => {
-        if (value < 0) return
-        if (amount == 0) {
-            setAmount(value)
-            return
+    const handleFinishSale = async () => {
+        const { total, subTotal, tax, discount } = calculateTotal()
+        const sale = {
+            total,
+            subTotal,
+            tax,
+            discount,
+            paymentMethod,
+            orderNumber,
+            products: cartItems.map(item => ({
+                product: item._id,
+                quantity: item.quantity,
+                pricePerUnit: item.pricePerUnit,
+                price: item.pricePerUnit * item.quantity,
+                discount: item.discount,
+                tax: item.tax,
+            }))
         }
-        setAmount(String(amount) + String(value))
+        await createSaleQuery.mutateAsync(sale)
+        dispatch(setIsFinishing(false))
+        dispatch(resetCart())
+        queryClient.invalidateQueries({ queryKey: ['sales'] })
     }
 
     return (
@@ -91,25 +110,30 @@ const RightSider = () => {
                     </VStack>
                 </VStack>
 
-                <HStack spacing={2}>
-                    <IconButton
-                        icon={<Icon as={APP_ICONS.BIN} />}
-                        aria-label='Reset Cart'
-                        size="lg"
-                        colorScheme='red'
-                        color={getColor(colorKeys.white, colorMode)}
-                        onClick={() => dispatch(resetCart())}
-                    />
-                    <Button
-                        w="full"
-                        size="lg"
-                        bg={getColor(colorKeys.dark, colorMode)}
-                        color={getColor(colorKeys.white, colorMode)}
-                        onClick={() => dispatch(setIsFinishing(true))}
-                    >
-                        Finish
-                    </Button>
-                </HStack>
+                {cartItems?.length > 0 && (
+                    <HStack spacing={2}>
+                        <IconButton
+                            icon={<Icon as={APP_ICONS.BIN} />}
+                            aria-label='Reset Cart'
+                            size="lg"
+                            colorScheme='red'
+                            color={getColor(colorKeys.white, colorMode)}
+                            onClick={() => dispatch(resetCart())}
+                            isDisabled={cartItems?.length === 0}
+
+                        />
+                        <Button
+                            w="full"
+                            size="lg"
+                            bg={getColor(colorKeys.dark, colorMode)}
+                            color={getColor(colorKeys.white, colorMode)}
+                            onClick={() => dispatch(setIsFinishing(true))}
+                            isDisabled={cartItems?.length === 0}
+                        >
+                            Finish
+                        </Button>
+                    </HStack>
+                )}
             </Flex>
 
 
@@ -173,6 +197,17 @@ const RightSider = () => {
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>
                             <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().total}</Text>
                         </Flex>
+                        <Button
+                            w="full"
+                            size="lg"
+                            bg={getColor(colorKeys.dark, colorMode)}
+                            color={getColor(colorKeys.white, colorMode)}
+                            onClick={handleFinishSale}
+                            isLoading={createSaleQuery.isLoading}
+                            isDisabled={paymentMethod === ""}
+                        >
+                            Checkout
+                        </Button>
                     </VStack>
 
                 </Box>

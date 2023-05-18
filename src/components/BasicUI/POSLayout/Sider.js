@@ -80,18 +80,16 @@ const Sider = () => {
               <Image src={IMAGES.EMPTY_BOX} objectFit={"contain"} h="180px" w="full" filter={"grayscale(1)"} />
             </Flex>
           )}
-          {salesQuery?.data?.docs?.map(() =>
+          {salesQuery?.data?.docs?.map((item, index) =>
             <>
-              <Box>
+              <Box key={index}>
                 <Flex w="full" align="center">
-                  <Avatar size="md" name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+                  <Avatar size="md" />
                   <Flex justify="space-between" ml={2} w="full">
                     <Box>
-                      <Text fontSize={"14px"}>Shehzad Ahmed</Text>
+                      <Text fontSize={"14px"} fontWeight={"bold"}>#{item.orderNumber || "N/A"}</Text>
                       <HStack spacing={1} align="center">
-                        <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">Table 230</Text>
-                        <Icon as={APP_ICONS.DOT} />
-                        <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">Items 2</Text>
+                        <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">Items {item.products?.length}</Text>
                         <Icon as={APP_ICONS.DOT} />
                         <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">PKR 2300</Text>
                       </HStack>
