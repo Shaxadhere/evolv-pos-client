@@ -21,7 +21,6 @@ const POS = () => {
     limit: 250,
   })
 
-
   return (
     <Box>
       <Sider />
