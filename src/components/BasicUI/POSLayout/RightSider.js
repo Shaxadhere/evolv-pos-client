@@ -1,10 +1,10 @@
-import { Box, Button, CloseButton, Divider, Flex, HStack, Heading, Icon, IconButton, Image, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import CartItem from '../DataBoxes/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomDrawer from '../Drawers/CustomDrawer'
-import { resetCart, setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
+import { resetCart, setIsCheckingOut, setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
 import { PAYMENT_METHODS } from '../../../config/constants/options'
 import IMAGES from '../../../config/constants/images'
 import APP_ICONS from '../../../config/constants/icons'
@@ -12,7 +12,8 @@ import APP_ICONS from '../../../config/constants/icons'
 const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
-    const { items: cartItems, isFinishing, orderNumber, paymentMethod } = useSelector(state => state.cart)
+    const [amount, setAmount] = useState(0)
+    const { items: cartItems, isFinishing, orderNumber, paymentMethod, isCheckingOut } = useSelector(state => state.cart)
 
     const calculateTotal = () => {
         let subTotal = 0
@@ -34,6 +35,15 @@ const RightSider = () => {
             tax,
             discount
         }
+    }
+
+    const handleAmountChange = (value) => {
+        if (value < 0) return
+        if (amount == 0) {
+            setAmount(value)
+            return
+        }
+        setAmount(String(amount) + String(value))
     }
 
     return (
@@ -103,7 +113,14 @@ const RightSider = () => {
             </Flex>
 
 
-            <CustomDrawer heading={"Receipt"} isOpen={isFinishing} onClose={() => dispatch(setIsFinishing(false))}>
+            <CustomDrawer
+                heading={"Receipt"}
+                isOpen={isFinishing}
+                onClose={() => dispatch(setIsFinishing(false))}
+                footer={
+                    <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)} onClick={() => dispatch(setIsCheckingOut(true))}>Checkout</Button>
+                }
+            >
                 <Box
                     aria-label='receipt'
                     border="1px solid #eee"
@@ -156,10 +173,52 @@ const RightSider = () => {
                             <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>
                             <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().total}</Text>
                         </Flex>
-                        <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)}>Checkout</Button>
                     </VStack>
 
                 </Box>
+            </CustomDrawer>
+
+            <CustomDrawer
+                heading={"Checkout"}
+                isOpen={isCheckingOut}
+                onClose={() => dispatch(setIsCheckingOut(false))}
+                footer={
+                    <Button w="full" size="lg" bg={getColor(colorKeys.dark, colorMode)} color={getColor(colorKeys.white, colorMode)}>Finish</Button>
+                }>
+                <Flex
+                    flexDir={"column"}
+                    justify={"space-between"}
+                    aria-label='checkout'
+                    p={"10px"}
+                    rounded="md"
+                >
+                    <VStack spacing={3} w="full">
+                        <InputGroup w="full">
+                            <InputLeftAddon children="PKR" />
+                            <Input value={amount} type="number" placeholder="Enter amount" />
+                        </InputGroup>
+                        <SimpleGrid columns={2} w="full" spacing={4}>
+                            {[
+                                { name: "CE", action: () => setAmount(amount.slice(0, -1)) },
+                                { name: "C", action: () => setAmount("0") }
+                            ].map((item, index) => (
+                                <Button h="60px" onClick={item.action} key={index}>{item.name}</Button>
+                            ))}
+                        </SimpleGrid>
+                        <SimpleGrid columns={3} w="full" spacing={4}>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, "00", 0, "."].map((item, index) => (
+                                <Button
+                                    h="60px"
+                                    key={index}
+                                    onClick={() => handleAmountChange(item)}
+                                >
+                                    {item}
+                                </Button>
+                            ))}
+                        </SimpleGrid>
+                    </VStack>
+
+                </Flex>
             </CustomDrawer>
         </Flex>
     )
