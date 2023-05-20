@@ -6,27 +6,29 @@ import { getFilters } from '../../../config/helpers/filterHelper'
 import CustomTable from '../../../components/BasicUI/CustomTable'
 import { useState } from 'react'
 import { formatDateTime } from '../../../config/helpers/dateHelper'
+import APP_ICONS from '../../../config/constants/icons'
+import { useCategory, useDeleteCategory } from '../../../config/query/categoryQuery'
 
 const CategoryList = ({ onEditModal, onWatchModal }) => {
 
     const [query, setQuery] = useState({
-        pageNo: 1,
-        pageSize: 20,
+        page: 1,
+        limit: 20,
     })
 
-    // const lectureQuery = useLectures(query)
+    const categoryQuery = useCategory(query)
     // const lectureFacetQuery = useLecturesFacet()
-    // const deleteLectureQuery = useDeleteLecture()
+    const deleteCategoryQuery = useDeleteCategory()
 
     const handleDelete = (id) => {
-        // deleteLectureQuery.mutateAsync(id)
-        //     .then((response) => {
-        //         lectureQuery.refetch()
-        //         console.log(`Lecture deleted successfully: ${response}`)
-        //     })
-        //     .catch((error) => {
-        //         console.log(`Error while deleting Lecture: ${error}`)
-        //     })
+        deleteCategoryQuery.mutateAsync(id)
+            .then((response) => {
+                categoryQuery.refetch()
+                console.log(`Category deleted successfully: ${response}`)
+            })
+            .catch((error) => {
+                console.log(`Error while deleting Category: ${error}`)
+            })
     }
 
     return (
@@ -49,25 +51,12 @@ const CategoryList = ({ onEditModal, onWatchModal }) => {
                             triggerOnClick={() => onEditModal(item)}
                         >
                             <LabelValuePair label="Description" value={item.description} />
-                            <LabelValuePair label="Chapter" value={item.chapterName} />
-                            <LabelValuePair label="Cohort" value={item.cohortName} />
-                            <LabelValuePair label="Course" value={item.courseName} />
-                            <LabelValuePair label="Qualification" value={item.qualificationName} />
-                            <LabelValuePair
-                                label="Status"
-                                value={true}
-                                valueComponent={
-                                    <StatusBadge value={item.status} />
-                                }
-                            />
                             <LabelValuePair label="Created" value={formatDateTime(item.createdBy?.dateTime)} />
                             <LabelValuePair label="Last Updated" value={formatDateTime(item.updateBy?.dateTime)} />
                         </TableInfoPopover>
                     )
                 },
-                { title: "Available From", extractor: "availableStartDateTimeValue" },
-                { title: "Available Till", extractor: "availableEndDateTimeValue" },
-                { title: "Status", extractor: "status", component: (item) => <StatusBadge value={item.status} /> },
+                { title: "Description", extractor: "description"},
                 {
                     title: "Last Modified",
                     extractor: "lastModified",
@@ -75,16 +64,35 @@ const CategoryList = ({ onEditModal, onWatchModal }) => {
                 },
                 { title: "Actions", extractor: "actions" }
             ]}
-            data={[]}
-            // loading={lectureQuery?.isLoading}
-            // totalResults={lectureQuery?.data?.totalResults}
-            // totalPages={lectureQuery?.data?.totalPages}
+            data={categoryQuery?.data?.docs?.map((item) => {
+                return {
+                    ...item,
+                    categoryName: item?.category?.name,
+                    actions: [
+                        {
+                            title: "Edit",
+                            action: () => onEditModal(item),
+                            icon: APP_ICONS.EDIT,
+                            isEdit: true
+                        },
+                        {
+                            title: "Delete",
+                            action: handleDelete,
+                            icon: APP_ICONS.BIN,
+                            isDelete: true
+                        }
+                    ]
+                }
+            })}
+            loading={categoryQuery?.isLoading}
+            totalResults={categoryQuery?.data?.totalResults}
+            totalPages={categoryQuery?.data?.totalPages}
             pageNo={query.pageNo}
             pageSize={query.pageSize}
             onQueryChange={(updatedQuery) => setQuery({ ...query, ...updatedQuery })}
             query={query}
-            // onRefresh={() => lectureQuery.refetch()}
-            // isRefreshing={lectureQuery?.isFetching}
+            onRefresh={() => categoryQuery.refetch()}
+            isRefreshing={categoryQuery?.isFetching}
             sortBy={query?.sortBy}
             sortOrder={query?.sortOrder}
         />

@@ -1,12 +1,12 @@
 var Config = {
-    ENVIRONMENT: "LOCAL", //current selected environment
+    ENVIRONMENT: "DEVELOPMENT", //current selected environment
     ENVIRONMENTS: {
         LOCAL: {
             BASE_URL: "http://localhost:5000/api",
             PERSIST_SECRET_KEY: "local.secret",
         },
         DEVELOPMENT: {
-            BASE_URL: "https://dev.evolvpos.net/api",
+            BASE_URL: "https://shark-app-f5832.ondigitalocean.app/api",
             PERSIST_SECRET_KEY: "dev.secret",
         },
         STAGING: {

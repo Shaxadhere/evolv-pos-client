@@ -54,13 +54,13 @@ export const useCreateCategory = () => {
     })
 }
 
-export const useUpdateCategory = () => {
+export const useUpdateCategory = (id) => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
             body = prepareData(body, API_CONSTANTS.CATEGORIES.dataKeys)
             const { data }  = await Put({
-                path: `${API_CONSTANTS.CATEGORIES.base}/${body.id}`,
+                path: `${API_CONSTANTS.CATEGORIES.base}/${id}`,
                 token,
                 body,
                 toastError: true,

@@ -260,7 +260,7 @@ const CustomTable = ({
                                                         .map((action, actionIndex) => {
                                                             if (action.isDelete) {
                                                                 return (
-                                                                    <DeletePopover key={actionIndex} onConfirm={() => action.action(row.id)}>
+                                                                    <DeletePopover key={actionIndex} onConfirm={() => action.action(row._id)}>
                                                                         <IconButton size="sm" icon={<Icon as={action.icon} />} key={index}>
                                                                             {action.title}
                                                                         </IconButton>
@@ -269,14 +269,14 @@ const CustomTable = ({
                                                             }
                                                             if (action.isRestore) {
                                                                 return (
-                                                                    <DeletePopover subject="restore" confirmScheme="green" key={actionIndex} onConfirm={() => action.action(row.id)}>
+                                                                    <DeletePopover subject="restore" confirmScheme="green" key={actionIndex} onConfirm={() => action.action(row._id)}>
                                                                         <IconButton size="sm" icon={<Icon as={action.icon} />} key={index}>
                                                                             {action.title}
                                                                         </IconButton>
                                                                     </DeletePopover>
                                                                 )
                                                             }
-                                                            return (<IconButton size="sm" icon={<Icon as={action.icon} />} key={actionIndex} onClick={() => action.action(row.id)}>
+                                                            return (<IconButton size="sm" icon={<Icon as={action.icon} />} key={actionIndex} onClick={() => action.action(row._id)}>
                                                                 {action.title}
                                                             </IconButton>)
                                                         })}

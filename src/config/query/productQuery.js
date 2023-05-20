@@ -54,13 +54,14 @@ export const useCreateProduct = () => {
     })
 }
 
-export const useUpdateProduct = () => {
+export const useUpdateProduct = (id) => {
+    console.log(id)
     const token = useSelector((state) => state.user.token)
     return useMutation({
         mutationFn: async (body) => {
             body = prepareData(body, API_CONSTANTS.PRODUCTS.dataKeys)
             const { data }  = await Put({
-                path: `${API_CONSTANTS.PRODUCTS.base}/${body.id}`,
+                path: `${API_CONSTANTS.PRODUCTS.base}/${id}`,
                 token,
                 body,
                 toastError: true,
