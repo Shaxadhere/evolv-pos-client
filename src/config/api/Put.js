@@ -10,7 +10,7 @@ async function Put({ path, token, body, toastError, toastMessage }) {
     const headers = { "Content-Type": "application/json" }
     if (token) headers.Authorization = `Bearer ${token}`
 
-    const { data } = await axios.put(url, body, headers);
+    const { data } = await axios.put(url, body, {headers});
 
     if (toastMessage) {
       const { message } = data
