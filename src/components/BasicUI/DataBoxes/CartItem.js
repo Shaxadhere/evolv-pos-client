@@ -1,5 +1,5 @@
-import { Box, CloseButton, Flex, HStack, Heading, Icon, IconButton, Text, useColorMode } from '@chakra-ui/react'
-import React from 'react'
+import { Box, CloseButton, Editable, EditableInput, EditablePreview, Flex, HStack, Heading, Icon, IconButton, Text, useColorMode } from '@chakra-ui/react'
+import React, { useRef, useState } from 'react'
 import APP_ICONS from '../../../config/constants/icons'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import ImageBox from './ImageBox'
@@ -9,6 +9,7 @@ import { removeItemFromCart, updateQuantity } from '../../../config/redux/slices
 const CartItem = ({ item }) => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
+    const priceRef = useRef()
 
     const handleDecrease = () => {
         dispatch(updateQuantity({ _id: item._id, quantity: item.quantity - 1 }))
@@ -22,6 +23,14 @@ const CartItem = ({ item }) => {
         dispatch(removeItemFromCart(item._id))
     }
 
+    const handleAmountChange = (value) => {
+        dispatch(updateQuantity({ _id: item._id, quantity: value / item.pricePerUnit }))
+    }
+
+    // const handleAmountBlur = (value) => {
+    //     dispatch(updateQuantity({ _id: item._id, quantity: value / item.pricePerUnit }))
+    // }
+
     return (
         <Flex align={"center"} justify={"space-between"} w="full" p="10px" border={"1px solid #eee"} rounded={'md'}>
             <Flex>
@@ -31,7 +40,17 @@ const CartItem = ({ item }) => {
                         <Heading as="h3" fontSize="16px">{item.name}</Heading>
                         <Text fontSize="14px">{item?.category?.name}</Text>
                     </Box>
-                    <Text fontSize="14px">PKR {item?.pricePerUnit}</Text>
+                    <Flex align="center">
+                        <Text mr={1}>PKR</Text>
+                        <Editable
+                            value={Number(item?.pricePerUnit) * Number(item.quantity)}
+                            onChange={(value) => handleAmountChange(value)}
+                            ref={priceRef}
+                        >
+                            <EditablePreview fontSize="14px" />
+                            <EditableInput />
+                        </Editable>
+                    </Flex>
                 </Flex>
             </Flex>
             <Flex justify={"space-between"} flexDir={"column"} align="end" h="120px">
@@ -44,7 +63,9 @@ const CartItem = ({ item }) => {
                         icon={<Icon boxSize="5" as={APP_ICONS.MINUS} />}
                         onClick={() => handleDecrease()}
                     />
-                    <Text color="#fff">{item.quantity}</Text>
+                    <Text color="#fff">
+                        {item.quantity}
+                    </Text>
                     <IconButton
                         bg={`transparent !important`}
                         color="white"

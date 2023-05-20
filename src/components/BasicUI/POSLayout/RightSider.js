@@ -132,7 +132,7 @@ const RightSider = () => {
                             </Text>
                         )}
                     </Flex>
-                    <VStack spacing={5}>
+                    <VStack w="full" spacing={5}>
                         {cartItems?.length === 0 && (
                             <Flex h="calc(100vh - 180px)" align="center" justify={"center"}>
                                 <Image src={IMAGES.EMPTY_BOX} h="180px" w="full" objectFit={"contain"} filter={"grayscale(1)"} />
@@ -154,7 +154,6 @@ const RightSider = () => {
                             color={getColor(colorKeys.white, colorMode)}
                             onClick={() => dispatch(resetCart())}
                             isDisabled={cartItems?.length === 0}
-
                         />
                         <Button
                             w="full"
