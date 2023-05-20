@@ -6,7 +6,7 @@ var Config = {
             PERSIST_SECRET_KEY: "local.secret",
         },
         DEVELOPMENT: {
-            BASE_URL: "http://192.168.1.104:5000/api",
+            BASE_URL: "https://shark-app-f5832.ondigitalocean.app/api",
             PERSIST_SECRET_KEY: "dev.secret",
         },
         STAGING: {

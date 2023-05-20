@@ -38,21 +38,36 @@ const OrderList = ({ onEditModal, onWatchModal }) => {
             // filters={getFilters(lectureFacetQuery?.data)}
             activeFilters={[]}
             head={[
-                { title: "Order Number", extractor: "orderNumber" },
+                {
+                    title: "Order Number",
+                    extractor: "orderNumber",
+                    align: "left",
+                    isSortable: true,
+                    component: (item) => (
+                        <TableInfoPopover
+                            data={item}
+                            triggerText={item.orderNumber}
+                            onEdit={(item) => onEditModal(item)}
+                            onDelete={(id) => handleDelete(id)}
+                            triggerOnClick={() => onEditModal(item)}
+                        >
+                            <LabelValuePair label="Description" value={item.description} />
+                            <LabelValuePair label="Created" value={formatDateTime(item.createdBy?.dateTime)} />
+                            <LabelValuePair label="Last Updated" value={formatDateTime(item.updateBy?.dateTime)} />
+                        </TableInfoPopover>
+                    )
+                },
                 { title: "Payment Method", extractor: "paymentMethod" },
                 { title: "Total", extractor: "total" },
-                { title: "Status", extractor: "status", component: (item) => <StatusBadge value={item.status} /> },
                 {
-                    title: "Products",
-                    extractor: "products.length",
-                    component: (item) => <Chronology data={item} />
+                    title: "No. of Items",
+                    extractor: "productsLength",
                 },
-                { title: "Actions", extractor: "actions" }
             ]}
             data={salesQuery?.data?.docs?.map((item) => {
                 return {
                     ...item,
-                    // categoryName: item?.category?.name,
+                    productsLength: item?.products?.length,
                     actions: [
                         {
                             title: "Edit",
@@ -69,15 +84,15 @@ const OrderList = ({ onEditModal, onWatchModal }) => {
                     ]
                 }
             })}
-            // loading={lectureQuery?.isLoading}
-            // totalResults={lectureQuery?.data?.totalResults}
-            // totalPages={lectureQuery?.data?.totalPages}
-            pageNo={query.pageNo}
-            pageSize={query.pageSize}
+            loading={salesQuery?.isLoading}
+            totalResults={salesQuery?.data?.totalResults}
+            totalPages={salesQuery?.data?.totalPages}
+            pageNo={query.page}
+            pageSize={query.limit}
             onQueryChange={(updatedQuery) => setQuery({ ...query, ...updatedQuery })}
             query={query}
-            // onRefresh={() => lectureQuery.refetch()}
-            // isRefreshing={lectureQuery?.isFetching}
+            onRefresh={() => salesQuery.refetch()}
+            isRefreshing={salesQuery?.isFetching}
             sortBy={query?.sortBy}
             sortOrder={query?.sortOrder}
         />
