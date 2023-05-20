@@ -8,16 +8,48 @@ import { ORDER_TYPES } from '../../../config/constants/options'
 import { setOrderType } from '../../../config/redux/slices/cartSlice'
 import { useSales } from '../../../config/query/saleQuery'
 import IMAGES from '../../../config/constants/images'
+import InvoiceBox from '../DataBoxes/InvoiceBox'
+import { useReactToPrint } from 'react-to-print'
 
 const Sider = () => {
   const { colorMode } = useColorMode()
   const { orderType } = useSelector(state => state.cart)
   const dispatch = useDispatch()
+  const [selectedSale, setSelectedSale] = useState(null)
   const [query, setQuery] = useState({
     page: 1,
     limit: 250,
   })
+  const invoiceRef = React.useRef()
   const salesQuery = useSales(query)
+  const { store } = useSelector(state => state.user)
+
+  const saleItemOptions = [
+    {
+      name: "Print Receipt",
+      icon: APP_ICONS.PRINT,
+      onClick: (sale) => {
+        console.log({sale})
+        setSelectedSale(sale)
+        setTimeout(() => {
+          handleOnPrint()
+        }, 1000)
+      }
+    },
+    {
+      name: "View Details",
+      icon: APP_ICONS.WATCH,
+      onClick: (sale) => setSelectedSale(sale)
+    },
+  ]
+
+  const handleOnPrint = useReactToPrint({
+    content: () => invoiceRef.current,
+    documentTitle: "Evolv - Invoice",
+    onAfterPrint: () => {
+      setSelectedSale(null)
+    }
+  });
 
   return (
     <Box
@@ -33,7 +65,7 @@ const Sider = () => {
     >
       <VStack spacing={4}>
 
-        <Flex w="full" justify={"space-between"} align="center" bg={getColor(colorKeys.lightGray, colorMode)} px="5px" py="5px" rounded="md">
+        {/* <Flex w="full" justify={"space-between"} align="center" bg={getColor(colorKeys.lightGray, colorMode)} px="5px" py="5px" rounded="md">
           {ORDER_TYPES.map((item, index) =>
             <Button
               key={index}
@@ -46,7 +78,7 @@ const Sider = () => {
               {item.name}
             </Button>
           )}
-        </Flex>
+        </Flex> */}
 
         <Flex w="full" justify={"space-between"} align="center">
           <Menu>
@@ -95,7 +127,14 @@ const Sider = () => {
                       </HStack>
                     </Box>
                     <Box h="full">
-                      <IconButton size="xs" variant={"ghost"} icon={<Icon as={APP_ICONS.OPTIONS} />} />
+                      <Menu>
+                        <MenuButton as={IconButton} size="xs" variant={"ghost"} icon={<Icon as={APP_ICONS.OPTIONS} />} />
+                        <MenuList>
+                          {saleItemOptions.map((option, i) =>
+                            <MenuItem key={i} icon={<Icon as={option.icon} />} onClick={() => option.onClick(item)}>{option.name}</MenuItem>
+                          )}
+                        </MenuList>
+                      </Menu>
                     </Box>
                   </Flex>
                 </Flex>
@@ -108,6 +147,15 @@ const Sider = () => {
 
       </VStack>
 
+      <InvoiceBox
+        ref={invoiceRef}
+        cartItems={selectedSale?.products || []}
+        subTotal={selectedSale?.subTotal}
+        discount={selectedSale?.discount}
+        tax={selectedSale?.tax}
+        total={selectedSale?.total}
+        storeName={store?.name}
+      />
     </Box >
   )
 }

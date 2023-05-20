@@ -1,4 +1,4 @@
-import { BsArchive, BsPlus, BsChevronLeft, BsSun, BsChevronDown, BsMoon, BsChevronRight, BsFillCaretDownFill, BsChevronUp, BsFileEarmarkBarGraph, BsFileText, BsGear, BsListUl, BsTag, BsTrash, BsArrowUpShort, BsArrowDownShort, BsCaretDown, BsCaretDownFill, BsCaretUp, BsCaretUpFill, BsCheckLg, BsThreeDotsVertical, BsDot } from "react-icons/bs"
+import { BsArchive, BsPlus, BsChevronLeft, BsSun, BsChevronDown, BsMoon, BsChevronRight, BsFillCaretDownFill, BsChevronUp, BsFileEarmarkBarGraph, BsFileText, BsGear, BsListUl, BsTag, BsTrash, BsArrowUpShort, BsArrowDownShort, BsCaretDown, BsCaretDownFill, BsCaretUp, BsCaretUpFill, BsCheckLg, BsThreeDotsVertical, BsDot, BsPrinter } from "react-icons/bs"
 import { HiOutlineBriefcase, HiOutlineCreditCard, HiOutlineQrcode } from "react-icons/hi"
 import { AiFillDollarCircle, AiOutlineEdit, AiOutlineEye, AiOutlineInfoCircle, AiOutlineMail, AiOutlineMinus, AiOutlineUser } from "react-icons/ai"
 import { GrRefresh } from "react-icons/gr"
@@ -33,6 +33,7 @@ const APP_ICONS = {
     MINUS: AiOutlineMinus,
     CHECK: BsCheckLg,
     WATCH: AiOutlineEye,
+    PRINT:BsPrinter,
 
     //Navigation Icons
     LeftChevron: BsChevronLeft,
