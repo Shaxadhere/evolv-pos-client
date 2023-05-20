@@ -10,6 +10,7 @@ import { useSales } from '../../../config/query/saleQuery'
 import IMAGES from '../../../config/constants/images'
 import InvoiceBox from '../DataBoxes/InvoiceBox'
 import { useReactToPrint } from 'react-to-print'
+import sortOrders from '../../../config/constants/sortOrders'
 
 const Sider = () => {
   const { colorMode } = useColorMode()
@@ -19,6 +20,8 @@ const Sider = () => {
   const [query, setQuery] = useState({
     page: 1,
     limit: 250,
+    sortOrder: sortOrders.DESC,
+    sortBy: "createdAt",
   })
   const invoiceRef = React.useRef()
   const salesQuery = useSales(query)
@@ -29,7 +32,7 @@ const Sider = () => {
       name: "Print Receipt",
       icon: APP_ICONS.PRINT,
       onClick: (sale) => {
-        console.log({sale})
+        console.log({ sale })
         setSelectedSale(sale)
         setTimeout(() => {
           handleOnPrint()
@@ -114,7 +117,7 @@ const Sider = () => {
           )}
           {salesQuery?.data?.docs?.map((item, index) =>
             <>
-              <Box key={index}>
+              <Box key={index} w="full">
                 <Flex w="full" align="center">
                   <Avatar size="md" />
                   <Flex justify="space-between" ml={2} w="full">
@@ -123,7 +126,7 @@ const Sider = () => {
                       <HStack spacing={1} align="center">
                         <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">Items {item.products?.length}</Text>
                         <Icon as={APP_ICONS.DOT} />
-                        <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">PKR 2300</Text>
+                        <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">PKR {item.total}</Text>
                       </HStack>
                     </Box>
                     <Box h="full">
@@ -138,7 +141,6 @@ const Sider = () => {
                     </Box>
                   </Flex>
                 </Flex>
-                <Text fontSize="12px" color={getColor(colorKeys.secondaryText, colorMode)}>Give more rice in one meal, and for one meal do not make it spicy...</Text>
               </Box>
               <Divider />
             </>

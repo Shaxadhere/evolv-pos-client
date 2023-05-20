@@ -4,6 +4,7 @@ import { formatDateTime } from '../../../config/helpers/dateHelper'
 
 const InvoiceBox = React.forwardRef((props, ref) => {
     const { orderNumber, dateTime, cartItems, total, subTotal, discount, storeName } = props
+    console.log(cartItems)
     return (
         <Box
             ref={ref}
@@ -49,14 +50,14 @@ const InvoiceBox = React.forwardRef((props, ref) => {
                         <Tr class="tabletitle" p="5px" fontSize="0.5em" bg="#eee">
                             <Td p="5px 0 5px 15px" border="1px solid #eee" class="item"><Heading as="h2" fontSize="14px" w="24mm" >ITM</Heading></Td>
                             <Td p="5px 0 5px 15px" border="1px solid #eee" class="Hours"><Heading as="h2" fontSize="14px" >QTY</Heading></Td>
-                            <Td p="5px 0 5px 15px" border="1px solid #eee" class="Rate"><Heading as="h2" fontSize="14px" >S.TOTAL</Heading></Td>
+                            <Td p="5px 0 5px 15px" border="1px solid #eee" class="Rate"><Heading as="h2" fontSize="14px" >S.TTL</Heading></Td>
                         </Tr>
 
                         {cartItems.map((product, index) => (
                             <Tr class="service" borderBottom={"1px solid #eee"} key={index}>
                                 <Td p="5px 0 5px 15px" border="1px solid #eee" class="tableitem"><Text class="itemtext" fontSize="14px">{product?.name}</Text></Td>
                                 <Td p="5px 0 5px 15px" border="1px solid #eee" class="tableitem"><Text class="itemtext" fontSize="14px">{product?.quantity}</Text></Td>
-                                <Td p="5px 0 5px 15px" border="1px solid #eee" lass="tableitem"><Text class="itemtext" fontSize="14px">PKR {product?.pricePerUnit * product?.quantity}</Text></Td>
+                                <Td p="5px 0 5px 15px" border="1px solid #eee" lass="tableitem"><Text class="itemtext" fontSize="14px">{product?.pricePerUnit * product?.quantity}</Text></Td>
                             </Tr>
                         ))}
 
@@ -84,7 +85,7 @@ const InvoiceBox = React.forwardRef((props, ref) => {
                 </Box>
 
                 <Box id="legalcopy" mt="5mm">
-                    <Text class="legal" fontSize="12px">Software developed by <strong>Evolv-Systems.com</strong> .
+                    <Text class="legal" fontSize="12px">Software developed by: <chakra.br/> <strong>Evolv-Systems.com</strong> .
                     </Text>
                 </Box>
 

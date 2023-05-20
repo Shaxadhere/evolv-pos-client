@@ -17,7 +17,7 @@ const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
     const [amount, setAmount] = React.useState(0)
-    const { items: cartItems, isFinishing, orderNumber, paymentMethod, isCheckingOut } = useSelector(state => state.cart)
+    const { items: cartItems, isFinishing, orderNumber, paymentMethod } = useSelector(state => state.cart)
     const { store } = useSelector(state => state.user)
     const queryClient = useQueryClient()
     const invoiceRef = React.useRef();
@@ -57,6 +57,7 @@ const RightSider = () => {
             orderNumber,
             products: cartItems.map(item => ({
                 product: item._id,
+                name:item.name,
                 quantity: item.quantity,
                 pricePerUnit: item.pricePerUnit,
                 price: item.pricePerUnit * item.quantity,
@@ -93,6 +94,7 @@ const RightSider = () => {
         onAfterPrint: () => {
             dispatch(setIsFinishing(false))
             dispatch(resetCart())
+            setAmount(0)
             queryClient.invalidateQueries({ queryKey: ['sales'] })
         }
     });
