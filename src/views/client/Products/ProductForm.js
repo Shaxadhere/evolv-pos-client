@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import FormSearchSelect from '../../../components/Forms/FormSearchSelect'
 import { useCategory } from '../../../config/query/categoryQuery'
 import { makeSelectList } from '../../../config/helpers/selectListHelper'
+import { useCreateProduct } from '../../../config/query/productQuery'
 
 const ProductForm = ({ disclosure, data }) => {
 
@@ -18,6 +19,7 @@ const ProductForm = ({ disclosure, data }) => {
         pageSize: 250,
     })
 
+    const createProductQuery = useCreateProduct()
     // const productsQuery = useProducts({
     //     pageNo: 1,
     //     pageSize: 20,
@@ -41,7 +43,14 @@ const ProductForm = ({ disclosure, data }) => {
     })
 
     const onSubmit = async (values) => {
-
+        createProductQuery
+            .mutateAsync(values)
+            .then(() => {
+                console.log("Product Created Successfully")
+            })
+            .catch((error) => {
+                console.log("Error while creating Product")
+            })
     }
     return (
         <FormDrawer
@@ -106,7 +115,7 @@ const ProductForm = ({ disclosure, data }) => {
             </SimpleGrid>
 
             <VStack spacing={5} mt={5}>
-                
+
             </VStack>
 
             <FormInput
