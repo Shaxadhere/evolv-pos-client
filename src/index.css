@@ -82,3 +82,17 @@ code {
     transform: rotate(0deg);
   }
 }
+
+/* Invoice Styling */
+
+@media screen {
+  #Evolv-Invoice {
+    display: none;
+  }
+}
+
+@media print {
+  #Evolv-Invoice {
+    display: block;
+  }
+}

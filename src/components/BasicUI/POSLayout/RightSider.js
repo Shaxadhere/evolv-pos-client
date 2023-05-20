@@ -10,13 +10,17 @@ import IMAGES from '../../../config/constants/images'
 import APP_ICONS from '../../../config/constants/icons'
 import { useCreateSale } from '../../../config/query/saleQuery'
 import { useQueryClient } from '@tanstack/react-query'
+import { useReactToPrint } from 'react-to-print'
+import InvoiceBox from '../DataBoxes/InvoiceBox'
 
 const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
     const [amount, setAmount] = React.useState(0)
     const { items: cartItems, isFinishing, orderNumber, paymentMethod, isCheckingOut } = useSelector(state => state.cart)
+    const { store } = useSelector(state => state.user)
     const queryClient = useQueryClient()
+    const invoiceRef = React.useRef();
 
     const createSaleQuery = useCreateSale()
 
@@ -61,9 +65,7 @@ const RightSider = () => {
             }))
         }
         await createSaleQuery.mutateAsync(sale)
-        dispatch(setIsFinishing(false))
-        dispatch(resetCart())
-        queryClient.invalidateQueries({ queryKey: ['sales'] })
+        handleOnPrint()
     }
 
     const handleAmountChange = (value) => {
@@ -84,6 +86,16 @@ const RightSider = () => {
         }
         setAmount(String(amount) + String(value))
     }
+
+    const handleOnPrint = useReactToPrint({
+        content: () => invoiceRef.current,
+        documentTitle: "Evolv - Invoice",
+        onAfterPrint: () => {
+            dispatch(setIsFinishing(false))
+            dispatch(resetCart())
+            queryClient.invalidateQueries({ queryKey: ['sales'] })
+        }
+    });
 
     return (
         <Flex
@@ -184,7 +196,7 @@ const RightSider = () => {
                     h={"calc(100vh - 160px)"}
                 >
                     <Box>
-                        <SimpleGrid columns={3} mt={5} spacing={5}>
+                        {/* <SimpleGrid columns={3} mt={5} spacing={5}>
                             {PAYMENT_METHODS.map((item, index) => {
                                 const color = paymentMethod === item.name ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.gray, colorMode)
                                 const bg = paymentMethod === item.name ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.white, colorMode)
@@ -211,8 +223,8 @@ const RightSider = () => {
                                     </Flex>
                                 )
                             })}
-                        </SimpleGrid>
-                        <VStack mt={5} spacing={3} w="full">
+                        </SimpleGrid> */}
+                        <VStack spacing={3} w="full">
                             <Flex w="full" justify={"space-between"} align={"center"}>
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
                                 <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().subTotal}</Text>
@@ -269,6 +281,15 @@ const RightSider = () => {
 
                 </Flex>
             </CustomDrawer>
+            <InvoiceBox
+                ref={invoiceRef}
+                cartItems={cartItems}
+                subTotal={calculateTotal().subTotal}
+                discount={calculateTotal().discount}
+                tax={calculateTotal().tax}
+                total={calculateTotal().total}
+                storeName={store?.name}
+            />
         </Flex>
     )
 }

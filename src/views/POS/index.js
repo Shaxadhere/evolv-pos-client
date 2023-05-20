@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Heading, Icon, Image, Input, InputGroup, InputLeftElement, SimpleGrid, VStack, useColorMode } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useReactToPrint } from 'react-to-print';
 import APP_ICONS from '../../config/constants/icons'
 import { colorKeys, getColor } from '../../config/constants/appColors'
 import { useCategory } from '../../config/query/categoryQuery'
@@ -10,6 +11,7 @@ import Sider from '../../components/BasicUI/POSLayout/Sider'
 import { useDispatch } from 'react-redux'
 import { addItemToCart } from '../../config/redux/slices/cartSlice'
 import IMAGES from '../../config/constants/images'
+import InvoiceBox from '../../components/BasicUI/DataBoxes/InvoiceBox'
 
 const POS = () => {
   const { colorMode } = useColorMode()
@@ -35,6 +37,8 @@ const POS = () => {
   const onQueryChange = ({ key, value }) => {
     setQuery({ ...query, [key]: value })
   }
+
+
 
   return (
     <Box>

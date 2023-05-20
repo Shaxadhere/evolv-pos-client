@@ -17,7 +17,7 @@ export const useCategory = (params) => {
                 path: `${API_CONSTANTS.CATEGORIES.base}?${appendQueryParams(params)}`,
                 token,
                 toastError: true,
-                toastMessage: true
+                toastMessage: false
             })
             return data
         },
