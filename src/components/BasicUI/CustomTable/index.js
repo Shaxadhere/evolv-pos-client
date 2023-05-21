@@ -90,12 +90,12 @@ const CustomTable = ({
 
     const handlePageChange = (nextPage) => {
         setCurrentPage(nextPage);
-        onQueryChange({ pageNo: nextPage })
+        onQueryChange({ page: nextPage })
     };
 
     const handleSort = (key, order) => {
         console.log(key, order, (sortOrder === sortOrders.ASC), sortOrder, sortOrders.ASC, "sort")
-        onQueryChange({ sortBy: key, sortOrder: order, pageNo: 1 })
+        onQueryChange({ sortBy: key, sortOrder: order, page: 1 })
     }
 
     return (
@@ -115,7 +115,7 @@ const CustomTable = ({
                         size="md"
                         maxW={"300px"}
                         m="2px"
-                        onChange={(e) => onQueryChange({ [searchKey]: e.target.value, pageNo: 1 })}
+                        onChange={(e) => onQueryChange({ [searchKey]: e.target.value, page: 1 })}
                     />
                     {filters?.map((item, index) => {
                         const visible = (shownFilters.includes(item.key) || index < 1 || query[item.key])
@@ -125,7 +125,7 @@ const CustomTable = ({
                                     key={index}
                                     options={item.options?.map((i) => ({ value: i.key, label: `${i.value} (${i.count})` }))}
                                     placeholder={item.title}
-                                    onChange={(value) => onQueryChange({ [item.key]: value.map((item) => item.value).join(","), pageNo: 1 })}
+                                    onChange={(value) => onQueryChange({ [item.key]: value.map((item) => item.value).join(","), page: 1 })}
                                     value={query[item.key] ? query[item.key].split(",").map((item) => ({ value: item, label: item })) : []}
                                     containerStyles={{ m: "2px !important" }}
                                 />
@@ -333,12 +333,11 @@ const CustomTable = ({
                             Showing {pageNo * limit - limit + 1} to {pageNo * limit > totalResults ? totalResults : pageNo * limit} of {totalResults} records
                         </Text>
                         <HStack spacing={1}>
-                            <Select defaultValue={query?.pageSize} size="sm" onChange={(e) => onQueryChange({ pageSize: Number(e.target.value), pageNo: 1 })}>
-                                <option value={5}>5</option>
-                                <option value={10}>10</option>
-                                <option value={20}>20</option>
-                                <option value={50}>50</option>
-                                <option value={100}>100</option>
+                            <Select defaultValue={query?.pageSize} size="sm" onChange={(e) => onQueryChange({ pageSize: Number(e.target.value), page: 1 })}>
+
+                                {[5, 10, 20, 50, 100].map((item, index) =>
+                                    <option selected={item===limit} key={index} value={item}>{item}</option>
+                                )}
                             </Select>
                             <Pagination
                                 pagesCount={pagesCount}

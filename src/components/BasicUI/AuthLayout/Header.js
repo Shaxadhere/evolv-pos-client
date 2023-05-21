@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Image, useColorMode, IconButton } from '@chakra-ui/react'
+import { Box, Flex, HStack, Image, useColorMode, IconButton, Text } from '@chakra-ui/react'
 import React from 'react'
 import { getColor, colorKeys } from '../../../config/constants/appColors'
 import LogoImage from "../../../assets/images/easy-lms-logo.svg"
@@ -51,9 +51,9 @@ const Header = () => {
             top="0"
             zIndex={99}
         >
-            <Flex>
+            <Flex align={"center"}>
                 <Box pr="15px">
-                    <Image src={LogoImage} w="130px" h="42px" />
+                    <Text color="#fff" fontSize={"24px"} fontWeight={"500"}>Evolv POS</Text>
                 </Box>
 
                 <HStack>
@@ -68,17 +68,12 @@ const Header = () => {
             </Flex>
 
             <HStack>
-                <Link to={"/start-free-trial"}>
-                    <Box rounded={"full"} m={"12px 0"} p="0px 15px" color="white" bg={getColor(colorKeys.primaryButtonFill, colorMode)} fontSize={"15px"} fontWeight="bold" lineHeight={"36px"}>
-                        Start Free Trial
-                    </Box>
-                </Link>
 
                 <IconButton size="sm" mr={4} rounded="full" boxSize="6" bg="transparent !important" color="white" onClick={toggleColorMode} as={colorMode === 'light' ? APP_ICONS.DarkMode : APP_ICONS.LighMode}>
                     Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
                 </IconButton>
 
-                <Link to={"/start-free-trial"}>
+                <Link to={"/auth/login"}>
                     <Box m={"12px 0"} p="0px 15px" color="white" fontSize={"15px"} fontWeight="bold">
                         Login
                     </Box>
