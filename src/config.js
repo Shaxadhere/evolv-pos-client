@@ -1,5 +1,5 @@
 var Config = {
-    ENVIRONMENT: "LOCAL", //current selected environment
+    ENVIRONMENT: "DEVELOPMENT", //current selected environment
     ENVIRONMENTS: {
         LOCAL: {
             BASE_URL: "http://localhost:5000/api",
@@ -9,17 +9,17 @@ var Config = {
         DEVELOPMENT: {
             BASE_URL: "https://shark-app-f5832.ondigitalocean.app/api",
             PERSIST_SECRET_KEY: "dev.secret",
-            CONTAINER: "http://localhost:5000/uploads/"
+            CONTAINER: "https://shark-app-f5832.ondigitalocean.app/uploads/"
         },
         STAGING: {
             BASE_URL: "http://stg.evolvpos:5000/api",
             PERSIST_SECRET_KEY: "stg.secret",
-            CONTAINER: "http://localhost:5000/uploads/"
+            CONTAINER: "http://stg.evolvpos:5000/uploads/"
         },
         PRODUCTION: {
             BASE_URL: "https://evolvpos.net/api",
             PERSIST_SECRET_KEY: "83jd9mjDWBABEILYoaiskdp9kDALASROWnuhnkaSADOKLKASDMNV",
-            CONTAINER: "http://localhost:5000/uploads/"
+            CONTAINER: "https://evolvpos.net/uploads/"
         }
     }
 };
