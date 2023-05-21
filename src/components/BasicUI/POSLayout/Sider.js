@@ -122,7 +122,7 @@ const Sider = () => {
                   <Avatar size="md" />
                   <Flex justify="space-between" ml={2} w="full">
                     <Box>
-                      <Text fontSize={"14px"} fontWeight={"bold"}>#{item.orderNumber || "N/A"}</Text>
+                      <Text fontSize={"14px"} fontWeight={"bold"}>{item.customer ? `${item.customer} - ` : ""} #{item.orderNumber || "N/A"}</Text>
                       <HStack spacing={1} align="center">
                         <Text color={getColor(colorKeys.secondaryText, colorMode)} fontSize="12px">Items {item.products?.length}</Text>
                         <Icon as={APP_ICONS.DOT} />

@@ -8,6 +8,7 @@ const initialState = {
     isCheckingOut: false,
     paymentMethod: PAYMENT_METHODS[0].name,
     orderType: ORDER_TYPES[0].name,
+    customer: ""
 }
 
 export const cartSlice = createSlice({
@@ -60,6 +61,7 @@ export const cartSlice = createSlice({
             state.isCheckingOut = false
             state.paymentMethod = PAYMENT_METHODS[0].name
             state.orderType = ORDER_TYPES[0].name
+            state.customer = ""
             return
         },
 
@@ -77,11 +79,14 @@ export const cartSlice = createSlice({
         },
         setOrderType: (state, { payload }) => {
             state.orderType = payload
+        },
+        setCustomer: (state, { payload }) => {
+            state.customer = payload
         }
     },
     extraReducers: {},
 })
 
-export const { addItemToCart, removeItemFromCart, replaceCart, resetCart, setIsFinishing, setOrderNumber, setPaymentMethod, updateQuantity, setOrderType, setIsCheckingOut } = cartSlice.actions
+export const { addItemToCart, removeItemFromCart, replaceCart, resetCart, setIsFinishing, setOrderNumber, setPaymentMethod, updateQuantity, setOrderType, setIsCheckingOut, setCustomer } = cartSlice.actions
 
 export default cartSlice.reducer

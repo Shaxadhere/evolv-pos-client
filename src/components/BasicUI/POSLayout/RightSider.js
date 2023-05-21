@@ -4,7 +4,7 @@ import { colorKeys, getColor } from '../../../config/constants/appColors'
 import CartItem from '../DataBoxes/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomDrawer from '../Drawers/CustomDrawer'
-import { resetCart, setIsCheckingOut, setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
+import { addItemToCart, resetCart, setCustomer, setIsCheckingOut, setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
 import { PAYMENT_METHODS } from '../../../config/constants/options'
 import IMAGES from '../../../config/constants/images'
 import APP_ICONS from '../../../config/constants/icons'
@@ -12,16 +12,22 @@ import { useCreateSale } from '../../../config/query/saleQuery'
 import { useQueryClient } from '@tanstack/react-query'
 import { useReactToPrint } from 'react-to-print'
 import InvoiceBox from '../DataBoxes/InvoiceBox'
+import { useProducts } from '../../../config/query/productQuery'
 
 const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
     const [amount, setAmount] = React.useState(0)
-    const { items: cartItems, isFinishing, orderNumber, paymentMethod } = useSelector(state => state.cart)
+    const { items: cartItems, isFinishing, orderNumber, paymentMethod, customer } = useSelector(state => state.cart)
     const { store } = useSelector(state => state.user)
     const queryClient = useQueryClient()
     const invoiceRef = React.useRef();
 
+    const productQurey = useProducts({
+        page: 1,
+        limit: 250,
+        category: "646a7649046388633221e494",
+    })
     const createSaleQuery = useCreateSale()
 
     const calculateTotal = () => {
@@ -55,9 +61,10 @@ const RightSider = () => {
             discount,
             paymentMethod,
             orderNumber,
+            customer,
             products: cartItems.map(item => ({
                 product: item._id,
-                name:item.name,
+                name: item.name,
                 quantity: item.quantity,
                 pricePerUnit: item.pricePerUnit,
                 price: item.pricePerUnit * item.quantity,
@@ -145,27 +152,49 @@ const RightSider = () => {
                 </VStack>
 
                 {cartItems?.length > 0 && (
-                    <HStack spacing={2}>
-                        <IconButton
-                            icon={<Icon as={APP_ICONS.BIN} />}
-                            aria-label='Reset Cart'
-                            size="lg"
-                            colorScheme='red'
-                            color={getColor(colorKeys.white, colorMode)}
-                            onClick={() => dispatch(resetCart())}
-                            isDisabled={cartItems?.length === 0}
-                        />
-                        <Button
-                            w="full"
-                            size="lg"
-                            bg={getColor(colorKeys.dark, colorMode)}
-                            color={getColor(colorKeys.white, colorMode)}
-                            onClick={() => dispatch(setIsFinishing(true))}
-                            isDisabled={cartItems?.length === 0}
-                        >
-                            Finish
-                        </Button>
-                    </HStack>
+                    <VStack w="full" spacing={5}>
+                        <HStack spacing={2} w="full">
+                            {productQurey.data?.docs?.map((product, index) =>
+                                <Button
+                                    key={index}
+                                    size="lg"
+                                    bg={getColor(colorKeys.dark, colorMode)}
+                                    color={getColor(colorKeys.white, colorMode)}
+                                    onClick={() => dispatch(addItemToCart({ ...product, quantity: 1 }))}
+                                    _hover={{
+                                        bg: getColor(colorKeys.dark, colorMode),
+                                    }}
+                                >
+                                    {product.name}
+                                </Button>
+                            )}
+                        </HStack>
+
+                        <HStack spacing={2} w="full">
+                            <IconButton
+                                icon={<Icon as={APP_ICONS.BIN} />}
+                                aria-label='Reset Cart'
+                                size="lg"
+                                colorScheme='red'
+                                color={getColor(colorKeys.white, colorMode)}
+                                onClick={() => dispatch(resetCart())}
+                                isDisabled={cartItems?.length === 0}
+                            />
+                            <Button
+                                w="full"
+                                size="lg"
+                                bg={getColor(colorKeys.dark, colorMode)}
+                                color={getColor(colorKeys.white, colorMode)}
+                                _hover={{
+                                    bg: getColor(colorKeys.dark, colorMode),
+                                }}
+                                onClick={() => dispatch(setIsFinishing(true))}
+                                isDisabled={cartItems?.length === 0}
+                            >
+                                Finish
+                            </Button>
+                        </HStack>
+                    </VStack>
                 )}
             </Flex>
 
@@ -225,7 +254,9 @@ const RightSider = () => {
                                 )
                             })}
                         </SimpleGrid> */}
+
                         <VStack spacing={3} w="full">
+                            <Input placeholder='Enter customer name' value={customer} onChange={(e) => dispatch(setCustomer(e.target.value))} />
                             <Flex w="full" justify={"space-between"} align={"center"}>
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
                                 <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().subTotal}</Text>
