@@ -57,6 +57,8 @@ const OrderList = ({ onEditModal, onWatchModal }) => {
                         </TableInfoPopover>
                     )
                 },
+                { title: "OrderType", extractor: "orderType"},
+                { title: "Customer", extractor: "customer" },
                 { title: "Payment Method", extractor: "paymentMethod" },
                 { title: "Total", extractor: "total" },
                 {
