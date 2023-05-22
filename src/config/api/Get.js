@@ -14,7 +14,7 @@ async function Get({ path, token, toastMessage, toastError, contentType = CONTEN
     }
     const response = await axios.get(url, { headers });
     if (toastMessage) {
-      let message = response.data.message?.message || "Unknown Error!"
+      let message = response.data.message?.message || "Data Fetched!"
       toast({
         title: 'Congrats!',
         description: message,

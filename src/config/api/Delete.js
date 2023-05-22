@@ -18,17 +18,8 @@ async function Delete({ path, token, contentType = CONTENT_TYPE.JSON, showToast 
       if (success) {
         toast({
           title: 'Congrats!',
-          description: message,
+          description: message || "Data Deleted Successfully!",
           status: 'success',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
-      else {
-        toast({
-          title: 'Oh oh!',
-          description: message || "Unknown error!",
-          status: 'error',
           duration: 9000,
           isClosable: true,
         })

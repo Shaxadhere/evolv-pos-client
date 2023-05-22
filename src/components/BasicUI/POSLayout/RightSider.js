@@ -1,11 +1,11 @@
-import { Box, Button, Divider, Flex, HStack, Heading, Icon, IconButton, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Divider, Flex, HStack, Heading, Icon, IconButton, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Text, VStack, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 import { colorKeys, getColor } from '../../../config/constants/appColors'
 import CartItem from '../DataBoxes/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomDrawer from '../Drawers/CustomDrawer'
-import { addItemToCart, resetCart, setCustomer, setIsCheckingOut, setIsFinishing, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
-import { PAYMENT_METHODS } from '../../../config/constants/options'
+import { addItemToCart, resetCart, setCustomer, setIsCheckingOut, setIsFinishing, setOrderType, setPaymentMethod } from '../../../config/redux/slices/cartSlice'
+import { ORDER_TYPES, PAYMENT_METHODS } from '../../../config/constants/options'
 import IMAGES from '../../../config/constants/images'
 import APP_ICONS from '../../../config/constants/icons'
 import { useCreateSale } from '../../../config/query/saleQuery'
@@ -18,7 +18,7 @@ const RightSider = () => {
     const { colorMode } = useColorMode()
     const dispatch = useDispatch()
     const [amount, setAmount] = React.useState(0)
-    const { items: cartItems, isFinishing, orderNumber, paymentMethod, customer } = useSelector(state => state.cart)
+    const { items: cartItems, isFinishing, orderNumber, paymentMethod, customer, orderType } = useSelector(state => state.cart)
     const { store } = useSelector(state => state.user)
     const queryClient = useQueryClient()
     const invoiceRef = React.useRef();
@@ -62,6 +62,7 @@ const RightSider = () => {
             paymentMethod,
             orderNumber,
             customer,
+            orderType,
             products: cartItems.map(item => ({
                 product: item._id,
                 name: item.name,
@@ -209,6 +210,9 @@ const RightSider = () => {
                         size="lg"
                         bg={getColor(colorKeys.dark, colorMode)}
                         color={getColor(colorKeys.white, colorMode)}
+                        _hover={{
+                            bg: getColor(colorKeys.dark, colorMode),
+                        }}
                         onClick={handleFinishSale}
                         isLoading={createSaleQuery.isLoading}
                         isDisabled={paymentMethod === "" || !amount || amount === "0" || parseFloat(amount) < calculateTotal().total}
@@ -256,6 +260,24 @@ const RightSider = () => {
                         </SimpleGrid> */}
 
                         <VStack spacing={3} w="full">
+                            <Flex w="full" justify={"space-between"} align="center" bg={getColor(colorKeys.lightGray, colorMode)} px="5px" py="5px" rounded="md">
+                                {ORDER_TYPES.map((item, index) =>
+                                    <Button
+                                        key={index}
+                                        minW="110px"
+                                        onClick={() => dispatch(setOrderType(item.name))}
+                                        size="sm"
+                                        bg={orderType === item.name ? getColor(colorKeys.dark, colorMode) : getColor(colorKeys.white, colorMode)}
+                                        color={orderType === item.name ? getColor(colorKeys.white, colorMode) : getColor(colorKeys.dark, colorMode)}
+                                        _focus={{
+                                            bg: getColor(colorKeys.dark, colorMode),
+                                            color: getColor(colorKeys.white, colorMode)
+                                        }}
+                                    >
+                                        {item.name}
+                                    </Button>
+                                )}
+                            </Flex>
                             <Input placeholder='Enter customer name' value={customer} onChange={(e) => dispatch(setCustomer(e.target.value))} />
                             <Flex w="full" justify={"space-between"} align={"center"}>
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
@@ -316,6 +338,8 @@ const RightSider = () => {
             <InvoiceBox
                 ref={invoiceRef}
                 cartItems={cartItems}
+                orderNumber={orderNumber}
+                orderType={orderType}
                 subTotal={calculateTotal().subTotal}
                 discount={calculateTotal().discount}
                 tax={calculateTotal().tax}

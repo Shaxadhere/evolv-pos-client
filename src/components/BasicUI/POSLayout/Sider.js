@@ -154,6 +154,8 @@ const Sider = () => {
         cartItems={selectedSale?.products || []}
         subTotal={selectedSale?.subTotal}
         discount={selectedSale?.discount}
+        orderType={selectedSale?.orderType}
+        orderNumber={selectedSale?.orderNumber}
         tax={selectedSale?.tax}
         total={selectedSale?.total}
         storeName={store?.name}

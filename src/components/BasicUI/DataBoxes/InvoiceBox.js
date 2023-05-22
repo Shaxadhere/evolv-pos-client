@@ -3,8 +3,7 @@ import React from 'react'
 import { formatDateTime } from '../../../config/helpers/dateHelper'
 
 const InvoiceBox = React.forwardRef((props, ref) => {
-    const { orderNumber, dateTime, cartItems, total, subTotal, discount, storeName } = props
-    console.log(cartItems)
+    const { orderNumber, dateTime, cartItems, total, subTotal, discount, storeName, orderType } = props
     return (
         <Box
             ref={ref}
@@ -22,22 +21,24 @@ const InvoiceBox = React.forwardRef((props, ref) => {
                     float="left"
                     marginLeft="0"
                 >
-                    <Heading fontSize="0.9em" as="h2">{storeName||"Evolv POS"}</Heading>
+                    <Heading fontSize="0.9em" as="h2">{storeName || "Evolv POS"}</Heading>
                 </Box>
             </Center>
 
-            <Box id="mid" borderBottom="1px solid #eee" minH="40px" mt={2}>
+            <Box id="mid" borderBottom="1px solid #eee" minH="50px" mt={2}>
                 <Box
                     display="block"
                     float="left"
                     marginLeft="0"
+                    my={"2px"}
                 >
                     <Text
                         fontSize="0.7em"
                         color="#666"
                         lineHeight="1.2em"
                     >
-                        <chakra.strong>Order Number: </chakra.strong>{orderNumber}<chakra.br />
+                        <chakra.strong>Order Number: </chakra.strong>#{orderNumber}<chakra.br />
+                        <chakra.strong>Order Type: </chakra.strong>{orderType}<chakra.br />
                         <chakra.strong>Date & Time: </chakra.strong>{dateTime ? formatDateTime(dateTime) : formatDateTime(new Date)}<chakra.br />
                     </Text>
                 </Box>
@@ -85,7 +86,7 @@ const InvoiceBox = React.forwardRef((props, ref) => {
                 </Box>
 
                 <Box id="legalcopy" mt="5mm">
-                    <Text class="legal" fontSize="12px">Software developed by: <chakra.br/> <strong>Evolv-Systems.com</strong> .
+                    <Text class="legal" fontSize="10px">Software developed by: <strong>Evolv-Systems.com</strong> .
                     </Text>
                 </Box>
 

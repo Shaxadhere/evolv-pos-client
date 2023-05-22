@@ -13,8 +13,10 @@ async function Post({ path, token, body, toastError, toastMessage, contentType =
     }
     const response = await axios.post(url, body, { headers });
 
+    console.log(response.data, "RESPONSE")
+
     if (toastMessage) {
-      let message = response.data?.message || "Unknown Error!"
+      let message = response.data?.message || "Task Completed!"
       toast({
         title: 'Congrats!',
         description: message,
