@@ -7,14 +7,3 @@ export const prepareData = (data, allowedKeys) => {
     }, {})
     return data
 }
-
-export const apiResponse = () => {
-    return {
-        data: "any",
-        success: "boolean",
-        message: "string",
-        devMessage: "string",
-        apiCode: "number",
-        statusCode: "number"
-    }
-}

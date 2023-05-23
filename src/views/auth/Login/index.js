@@ -27,7 +27,7 @@ const Login = () => {
             .then((response) => {
                 console.log(response, "response")
                 dispatch(addUser(response))
-                navigate("/admin")
+                navigate("/pos")
             })
             .catch((error) => {
                 console.log(error, "error")

@@ -5,7 +5,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import ErrorPage from "./error";
-import Dashboard from "../../views/admin/Dashboard"
+import Dashboard from "../../views/client/Dashboard"
 import POS from '../../views/POS';
 import ClientLayout from '../../components/BasicUI/ClientLayout';
 import POSLayout from '../../components/BasicUI/POSLayout';
@@ -17,8 +17,6 @@ import Categories from '../../views/client/Categories';
 import Orders from '../../views/client/Orders';
 import Customers from '../../views/client/Customers';
 
-// import examSubSiderOptions from "../../config/constants/examSubsiderOptions"
-
 const router = createBrowserRouter([
     {
         path: "/",
@@ -27,7 +25,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to={"/dashboard"} replace />
+                element: <Navigate to={"/pos"} replace />
             },
             {
                 path: "dashboard",

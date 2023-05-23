@@ -10,7 +10,7 @@ const AuthLayout = () => {
     const { token } = useSelector((state) => state.user)
 
     if (token) {
-        return <Navigate to="/dashboard" replace={true} />
+        return <Navigate to="/pos" replace={true} />
     }
 
     return (

@@ -40,7 +40,7 @@ const Header = ({ disclosure }) => {
 
             <Breadcrumb separator={<Icon display="flex" as={APP_ICONS.RightChevron} color='white' />}>
                 <BreadcrumbItem>
-                    <BreadcrumbLink fontSize="15px" color="white" as={Link} to="/admin">Dashboard</BreadcrumbLink>
+                    <BreadcrumbLink fontSize="15px" color="white" as={Link} to="/dashboard">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
                 {splitPath.map((item, index) => {
                     if (index < 1 || item === "dashboard") return null
@@ -68,8 +68,6 @@ const Header = ({ disclosure }) => {
                     />
                     <MenuList>
                         {[
-                            { name: "Profile", action: () => navigate("/admin/settings/profile") },
-                            { name: "Settings", action: () => navigate("/admin/settings") },
                             { name: "Log Out", action: () => dispatch(removeUser()) },
                         ].map((item, index) =>
                             <MenuItem key={index} onClick={item.action}>{item.name}</MenuItem>

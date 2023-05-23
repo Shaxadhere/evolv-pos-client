@@ -4,9 +4,6 @@ import NavItem from './NavItem';
 import { getColor, colorKeys } from "../../../config/constants/appColors"
 import APP_ICONS from '../../../config/constants/icons';
 import { Link } from 'react-router-dom';
-import examSubSiderOptions from '../../../config/constants/examSubsiderOptions';
-import lecturesSubsiderOptions from '../../../config/constants/lecturesSubsiderOptions';
-import syllabusSubsiderOptions from '../../../config/constants/usersSubsiderOptions';
 
 const Sider = ({ disclosure }) => {
   const { colorMode } = useColorMode()
@@ -16,37 +13,31 @@ const Sider = ({ disclosure }) => {
       icon: APP_ICONS.EXAMS,
       title: "Dashboard",
       link: "/dashboard",
-      subsider: examSubSiderOptions
     },
     {
       icon: APP_ICONS.COURSES,
       title: "POS",
       link: "/pos",
-      subsider: syllabusSubsiderOptions
     },
     {
       icon: APP_ICONS.LECTURES,
       title: "Products",
       link: "/products",
-      subsider: lecturesSubsiderOptions
     },
     {
       icon: APP_ICONS.LECTURES,
       title: "Categories",
       link: "/categories",
-      subsider: lecturesSubsiderOptions
     },
     {
       icon: APP_ICONS.LECTURES,
       title: "Orders",
       link: "/orders",
-      subsider: lecturesSubsiderOptions
     },
     {
       icon: APP_ICONS.USERS,
       title: "Customers",
       link: "/customers",
-      subsider: examSubSiderOptions
     },
   ]
 
@@ -66,7 +57,7 @@ const Sider = ({ disclosure }) => {
       {...props}
     >
       <Flex px="4" h={"60px"} align="center" bg={getColor(colorKeys.layoutHeaderBackground, colorMode)}>
-        <Link to="/admin">
+        <Link to="/pos">
           <Image
             h="42px"
             w="42px"
@@ -102,8 +93,6 @@ const Sider = ({ disclosure }) => {
           md: "unset",
         }}
       />
-
-      {/* <SubSider sidebarOptions={examSubSiderOptions} containerStyles={{ zIndex: 99999 }} /> */}
 
       <Drawer
         isOpen={disclosure.isOpen}

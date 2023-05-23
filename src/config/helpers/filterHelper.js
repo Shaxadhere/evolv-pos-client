@@ -13,16 +13,6 @@ export const getFilters = (facetData) => {
 
 
 export const filterLabelEnum = {
-    statuses: "Status",
-    createdBy: "Created By",
-    updatedBy: "Updated By",
-    qualifications:"Qualification",
-    teachers:"Teacher",
-    courses:"Course",
-    cohorts:"Cohort",
-    roles:"Role",
-    chapters:"Chapter",
-    itemEntityNames:"Item Type",
 }
 
 export const getFilterLabel = (key) => {

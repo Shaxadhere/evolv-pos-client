@@ -57,10 +57,11 @@ const OrderList = ({ onEditModal, onWatchModal }) => {
                         </TableInfoPopover>
                     )
                 },
-                { title: "OrderType", extractor: "orderType"},
+                { title: "OrderType", extractor: "orderType" },
                 { title: "Customer", extractor: "customer" },
                 { title: "Payment Method", extractor: "paymentMethod" },
                 { title: "Total", extractor: "total" },
+                { title: "Cashier", extractor: "cashier" },
                 {
                     title: "No. of Items",
                     extractor: "productsLength",
@@ -70,6 +71,7 @@ const OrderList = ({ onEditModal, onWatchModal }) => {
                 return {
                     ...item,
                     productsLength: item?.products?.length,
+                    cashier: item?.user?.name,
                     actions: [
                         {
                             title: "Edit",

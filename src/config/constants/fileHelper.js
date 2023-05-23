@@ -8,7 +8,7 @@ export const ALLOWED_FILE_TYPES = {
 }
 
 export const MULTI_FILE_OBJECT = {
-    type:1,
-    name:"",
-    url:""
-}
+    type: 1,
+    name: "",
+    url: ""
+} 
