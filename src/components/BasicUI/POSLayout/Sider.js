@@ -41,11 +41,11 @@ const Sider = () => {
         }, 1000)
       }
     },
-    {
-      name: "View Details",
-      icon: APP_ICONS.WATCH,
-      onClick: (sale) => setSelectedSale(sale)
-    },
+    // {
+    //   name: "View Details",
+    //   icon: APP_ICONS.WATCH,
+    //   onClick: (sale) => setSelectedSale(sale)
+    // },
   ]
 
   const handleOnPrint = useReactToPrint({

@@ -283,14 +283,14 @@ const RightSider = () => {
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Subtotal:</Text>
                                 <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().subTotal}</Text>
                             </Flex>
-                            <Flex w="full" justify={"space-between"} align={"center"}>
+                            {/* <Flex w="full" justify={"space-between"} align={"center"}>
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Discount:</Text>
                                 <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().discount}</Text>
                             </Flex>
                             <Flex w="full" justify={"space-between"} align={"center"}>
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total Sales Tax:</Text>
                                 <Text fontSize={"16px"} fontWeight={"bold"}>Rs. {calculateTotal().tax}</Text>
-                            </Flex>
+                            </Flex> */}
                             <Divider />
                             <Flex w="full" justify={"space-between"} align={"center"}>
                                 <Text fontSize={"16px"} color={getColor(colorKeys.secondaryText, colorMode)}>Total:</Text>

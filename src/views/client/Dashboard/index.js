@@ -51,7 +51,7 @@ const Dashboard = () => {
 
         <FormControl>
           <FormLabel>Order Type</FormLabel>
-          <Select type="text" placeholder="Enter customer name" onChange={(e) => handleQueryChange("customer", e.target.value)}>
+          <Select type="text" placeholder="Select order type" onChange={(e) => handleQueryChange("customer", e.target.value)}>
             {ORDER_TYPES.map((type, index) => (
               <option key={index} value={type.name}>{type.name}</option>
             ))}
