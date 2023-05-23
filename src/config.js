@@ -1,5 +1,5 @@
 var Config = {
-    ENVIRONMENT: "DEVELOPMENT", //current selected environment
+    ENVIRONMENT: "LOCAL", //current selected environment
     ENVIRONMENTS: {
         LOCAL: {
             BASE_URL: "http://localhost:5000/api",

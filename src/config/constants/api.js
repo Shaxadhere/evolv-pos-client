@@ -28,6 +28,7 @@ const API_CONSTANTS = {
     },
     SALES: {
         base: "/sale",
+        report: "/sale/report",
     },
     PRODUCTS: {
         base: "/product",
@@ -35,6 +36,7 @@ const API_CONSTANTS = {
     },
     USERS: {
         base: "/user",
+        store:"/user/store",
         dataKeys: ["name", "email", "contact", "password",]
     },
 

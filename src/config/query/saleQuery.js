@@ -25,6 +25,23 @@ export const useSales = (params) => {
     })
 }
 
+export const useSaleReport = (params) => {
+    const token = useSelector((state) => state.user.token)
+    return useQuery({
+        queryKey: ["saleReport", params],
+        queryFn: async () => {
+            const { data } = await Get({
+                path: `${API_CONSTANTS.SALES.report}?${appendQueryParams(params)}`,
+                token,
+                toastError: true,
+                toastMessage: false
+            })
+            return data
+        },
+        keepPreviousData: true
+    })
+}
+
 export const useCreateSale = () => {
     const token = useSelector((state) => state.user.token)
     return useMutation({
