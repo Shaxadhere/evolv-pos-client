@@ -32,9 +32,9 @@ const CartItem = ({ item }) => {
     // }
 
     return (
-        <Flex align={"center"} justify={"space-between"} w="full" p="10px" border={"1px solid #eee"} rounded={'md'}>
+        <Flex align={"center"} justify={"space-between"} w="full" p="5px" border={"1px solid #eee"} rounded={'md'}>
             <Flex>
-                <ImageBox src={item?.photo} w="120px" h="120px" rounded="md" />
+                <ImageBox src={item?.photo} w="120px" h="70px" rounded="md" />
                 <Flex flexDir={"column"} ml="10px" justify={"space-between"}>
                     <Box>
                         <Heading as="h3" fontSize="16px">{item.name}</Heading>
@@ -53,7 +53,7 @@ const CartItem = ({ item }) => {
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex justify={"space-between"} flexDir={"column"} align="end" h="120px">
+            <Flex justify={"space-between"} flexDir={"column"} align="end" h="70px">
                 <CloseButton onClick={handleRemove} />
                 <HStack spacing={3} bg={getColor(colorKeys.dark, colorMode)} rounded={"full"}>
                     <IconButton

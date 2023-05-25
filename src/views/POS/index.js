@@ -8,8 +8,8 @@ import { useProducts } from '../../config/query/productQuery'
 import ProductCard from '../../components/BasicUI/DataBoxes/ProductCard'
 import RightSider from '../../components/BasicUI/POSLayout/RightSider'
 import Sider from '../../components/BasicUI/POSLayout/Sider'
-import { useDispatch } from 'react-redux'
-import { addItemToCart } from '../../config/redux/slices/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart, updateTempQuantity } from '../../config/redux/slices/cartSlice'
 import IMAGES from '../../config/constants/images'
 import InvoiceBox from '../../components/BasicUI/DataBoxes/InvoiceBox'
 
@@ -17,6 +17,7 @@ const POS = () => {
   const { colorMode } = useColorMode()
   const dispatch = useDispatch()
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const { tempQuantity } = useSelector((state) => state.cart);
 
   const [query, setQuery] = useState({
     page: 1,
@@ -31,7 +32,12 @@ const POS = () => {
 
 
   const handleAddProduct = (product) => {
-    dispatch(addItemToCart({ ...product, quantity: 1 }))
+    if(!tempQuantity){
+      dispatch(addItemToCart({ ...product, quantity: 1 }))
+    }else{
+      dispatch(addItemToCart({ ...product, quantity: tempQuantity }))
+      dispatch(updateTempQuantity(0))
+    }
   }
 
   const onQueryChange = ({ key, value }) => {
@@ -97,7 +103,7 @@ const POS = () => {
                   <Image src={IMAGES.EMPTY_BOX} h="180px" w="full" objectFit={"contain"} filter={"grayscale(1)"} />
                 </Flex>
               )}
-              <SimpleGrid spacing={4} mt={3} columns={{ base: 1, sm: 2, md: 4 }}>
+              <SimpleGrid spacing={4} mt={3} columns={{ base: 1, sm: 2, md: 8 }}>
                 {productsQuery?.data?.docs?.map((item, index) => (
                   <ProductCard key={index} product={item} onAddToCart={handleAddProduct} />
                 ))}
